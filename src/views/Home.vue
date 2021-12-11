@@ -1,31 +1,10 @@
-<!--
- * 严肃声明：
- * 开源版本请务必保留此注释头信息，若删除我方将保留所有法律责任追究！
- * 本系统已申请软件著作权，受国家版权局知识产权以及国家计算机软件著作权保护！
- * 可正常分享和学习源码，不得用于违法犯罪活动，违者必究！
- * Copyright (c) 2020 陈尼克 all rights reserved.
- * 版权所有，侵权必究！
- *
--->
-
 <template>
   <div class="page">
-    <header class="home-header wrap" :class="{ active: headerScroll }">
-      <!-- <router-link tag="i" to="./category"><i class="nbicon nbmenu2"></i></router-link>
-      <div class="header-search">
-        <span class="app-name">新蜂商城</span>
-        <i class="iconfont icon-search"></i>
-        <router-link tag="span" class="search-title" to="./product-list?from=home">山河无恙，人间皆安</router-link>
-      </div> -->
-      <!-- <router-link class="login" tag="span" to="./login" v-if="!isLogin">登录</router-link>
-      <router-link class="login" tag="span" to="./user" v-else>
-        <van-icon name="manager-o" />
-      </router-link> -->
-    </header>
+    <!-- <header class="home-header wrap" :class="{ active: headerScroll }"></header> -->
     <nav-bar />
-    <!-- <swiper :list="swiperList"></swiper> -->
-    <van-image class="banner" fit="cover" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-
+    <div class="banner">
+      <van-image fit="cover" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
+    </div>
     <div class="category-list">
       <div v-for="item in categoryList" v-bind:key="item.categoryId" @click="tips">
         <img :src="item.imgUrl" />
@@ -34,42 +13,15 @@
     </div>
     <div class="good">
       <header class="good-header">公示栏</header>
-      <van-skeleton title :row="3" :loading="loading">
+      <van-skeleton title :row="3" :loading="loading" >
         <div class="good-box">
-          <div class="good-item" v-for="item in newGoodses" :key="item.goodsId" @click="goToDetail(item)">
-            <img :src="$filters.prefix(item.goodsCoverImg)" alt="" />
+          <!-- @click="goToDetail(item)" -->
+          <div class="good-item" v-for="item in newGoodses" :key="item.goodsId">
             <div class="good-desc">
-              <div class="title">{{ item.goodsName }}</div>
-              <div class="price">¥ {{ item.sellingPrice }}</div>
+              <div class="title">{{ item.title }}</div>
+              <div class="desc">{{ item.desc }}</div>
             </div>
-          </div>
-        </div>
-      </van-skeleton>
-    </div>
-    <div class="good">
-      <header class="good-header">热门商品</header>
-      <van-skeleton title :row="3" :loading="loading">
-        <div class="good-box">
-          <div class="good-item" v-for="item in hots" :key="item.goodsId" @click="goToDetail(item)">
             <img :src="$filters.prefix(item.goodsCoverImg)" alt="" />
-            <div class="good-desc">
-              <div class="title">{{ item.goodsName }}</div>
-              <div class="price">¥ {{ item.sellingPrice }}</div>
-            </div>
-          </div>
-        </div>
-      </van-skeleton>
-    </div>
-    <div class="good" :style="{ paddingBottom: '100px' }">
-      <header class="good-header">最新推荐</header>
-      <van-skeleton title :row="3" :loading="loading">
-        <div class="good-box">
-          <div class="good-item" v-for="item in recommends" :key="item.goodsId" @click="goToDetail(item)">
-            <img :src="$filters.prefix(item.goodsCoverImg)" alt="" />
-            <div class="good-desc">
-              <div class="title">{{ item.goodsName }}</div>
-              <div class="price">¥ {{ item.sellingPrice }}</div>
-            </div>
           </div>
         </div>
       </van-skeleton>
@@ -80,15 +32,13 @@
 <script>
 import { reactive, onMounted, toRefs, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-// import swiper from '@/components/Swiper'
 import navBar from '@/components/NavBar'
-import { getHome } from '@/service/home'
+// import { getDictDataList } from '@/service/home'
 import { getLocal } from '@/common/js/utils'
 import { Toast } from 'vant'
 export default {
   name: 'home',
   components: {
-    // swiper,
     navBar,
   },
   setup() {
@@ -98,7 +48,28 @@ export default {
       isLogin: false, // 是否已登录
       headerScroll: false, // 滚动透明判断
       hots: [],
-      newGoodses: [],
+      newGoodses: [
+        {
+          goodsCoverImg: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          title: '张丹的建房公示',
+          desc: '建房类型：原址翻建',
+        },
+        {
+          goodsCoverImg: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          title: '张丹的建房公示',
+          desc: '建房类型：原址翻建',
+        },
+        {
+          goodsCoverImg: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          title: '张丹的建房公示',
+          desc: '建房类型：原址翻建',
+        },
+        {
+          goodsCoverImg: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          title: '张丹的建房公示',
+          desc: '建房类型：原址翻建',
+        },
+      ],
       recommends: [],
       categoryList: [
         {
@@ -133,11 +104,12 @@ export default {
         message: '加载中...',
         forbidClick: true,
       })
-      const { data } = await getHome()
-      state.swiperList = data.carousels
-      state.newGoodses = data.newGoodses
-      state.hots = data.hotGoodses
-      state.recommends = data.recommendGoodses
+      // const { data } = await getDictDataList()
+      // console.log(data)
+      // state.swiperList = data.carousels
+      // state.newGoodses = data.newGoodses
+      // state.hots = data.hotGoodses
+      // state.recommends = data.recommendGoodses
       state.loading = false
       Toast.clear()
     })
@@ -201,7 +173,7 @@ export default {
     padding: 5px 0;
     color: #232326;
     background: rgba(255, 255, 255, 0.7);
-    border-radius: 20px;
+    .borderRadius(20px);
     .app-name {
       padding: 0 10px;
       color: @primary;
@@ -234,15 +206,16 @@ export default {
 }
 .banner {
   width: 100%;
-  margin: 2px 0 10px 0;
-  img {
-    border-radius: 10px;
-  }
+  height: 150px;
+  margin-top: 15px;
+  overflow: hidden;
+  .borderRadius(10px);
 }
 .category-list {
-  display: flex;
-  flex-shrink: 0;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-shrink: 0;
+  // flex-wrap: wrap;
+  .fj();
   width: 100%;
   padding-bottom: 13px;
   div {
@@ -251,20 +224,17 @@ export default {
     width: 20%;
     text-align: center;
     img {
-      .wh(36px, 36px);
+      .wh(34px, 31px);
       margin: 13px auto 8px auto;
     }
   }
 }
 .good {
+  padding-bottom: 100px;
   .good-header {
-    background: #f9f9f9;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    color: @primary;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: bold;
+    margin: 10px 0 8px;
   }
   .good-box {
     display: flex;
@@ -272,69 +242,32 @@ export default {
     flex-wrap: wrap;
     .good-item {
       box-sizing: border-box;
-      width: 50%;
-      border-bottom: 1px solid #e9e9e9;
-      padding: 10px 10px;
+      width: 100%;
+      padding: 10px 12px;
+      background-color: #ffffff;
+      box-shadow: 0px 2px 5px 0px rgba(127, 139, 168, 0.12);
+      .borderRadius(10px);
+      .fj();
+      margin-bottom: 12px;
       img {
         display: block;
-        width: 120px;
-        margin: 0 auto;
+        width: 67px;
+        .borderRadius(50%);
       }
       .good-desc {
-        text-align: center;
-        font-size: 14px;
+        font-size: 16px;
         padding: 10px 0;
         .title {
-          color: #222333;
+          font-weight: bold;
         }
-        .price {
-          color: @primary;
+        .desc {
+          font-size: 14px;
+          color: #9297ae;
+          margin-top: 8px;
         }
       }
       &:nth-child(2n + 1) {
         border-right: 1px solid #e9e9e9;
-      }
-    }
-  }
-}
-.floor-list {
-  width: 100%;
-  padding-bottom: 50px;
-  .floor-head {
-    width: 100%;
-    height: 40px;
-    background: #f6f6f6;
-  }
-  .floor-content {
-    display: flex;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-    width: 100%;
-    .boxSizing();
-    .floor-category {
-      width: 50%;
-      padding: 10px;
-      border-right: 1px solid #dcdcdc;
-      border-bottom: 1px solid #dcdcdc;
-      .boxSizing();
-      &:nth-child(2n) {
-        border-right: none;
-      }
-      p {
-        font-size: 17px;
-        color: #333;
-        &:nth-child(2) {
-          padding: 5px 0;
-          font-size: 13px;
-          color: @primary;
-        }
-      }
-      .floor-products {
-        .fj();
-        width: 100%;
-        img {
-          .wh(65px, 65px);
-        }
       }
     }
   }

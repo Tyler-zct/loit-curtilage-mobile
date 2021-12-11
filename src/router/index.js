@@ -31,6 +31,18 @@ const router = createRouter({
         index: 2
       }
     },
+    // 申报材料上传
+    {
+      path: '/build-apply/apply-materials',
+      name: 'ApplyMaterials',
+      component: () => import('@/views/build-apply/ApplyMaterials.vue')
+    },
+    // 建房信息
+    {
+      path: '/build-apply/build-info',
+      name: 'BuildInfo',
+      component: () => import('@/views/build-apply/BuildInfo.vue')
+    },
     {
       path: '/category',
       name: 'category',

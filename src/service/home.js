@@ -7,9 +7,20 @@
  * 版权所有，侵权必究！
  */
 
-import axios from '../utils/axios'
+// import { service } from '../utils/axios'
 
-export function getHome() {
-  return axios.get('/index-infos');
+// export function getHome() {
+//   return service.get('/api/v1/dictionary/page');
+// }
+
+import { get, getmh } from '@/utils/axios.js'
+var api = '/api/v1'
+
+// 获取获取字典数据项
+export function getDictDataList(data) {
+  return getmh(api + '/dictData/getDictDataByDictId', data)
 }
-
+// 获取屏南搜索条件字典表
+export function getSearchDic(data) {
+  return get(`${api}/dictionary/findByDictionaryCode`, data)
+}

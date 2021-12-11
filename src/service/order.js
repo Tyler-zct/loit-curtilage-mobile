@@ -7,30 +7,30 @@
  * 版权所有，侵权必究！
  */
 
-import axios from '../utils/axios'
+import { service } from '../utils/axios'
 
 export function createOrder(params) {
-  return axios.post('/saveOrder', params);
+  return service.post('/saveOrder', params);
 }
 
 export function getOrderList(params) {
-  return axios.get('/order', { params });
+  return service.get('/order', { params });
 }
 
 export function getOrderDetail(id) {
-  return axios.get(`/order/${id}`);
+  return service.get(`/order/${id}`);
 }
 
 export function cancelOrder(id) {
-  return axios.put(`/order/${id}/cancel`);
+  return service.put(`/order/${id}/cancel`);
 }
 
 export function confirmOrder(id) {
-  return axios.put(`/order/${id}/finish`)
+  return service.put(`/order/${id}/finish`)
 }
 
 export function payOrder(params) {
-  return axios.get('/paySuccess', { params })
+  return service.get('/paySuccess', { params })
 }
 
 

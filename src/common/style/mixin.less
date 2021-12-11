@@ -10,7 +10,7 @@
 @import './base.less';
 @primary: #1baeae; // 主题色
 @orange: #FF6B01; 
-@bc: #F7F7F7;
+@bc: #f0f2f5;
 @fc:#fff;
 
 // // 背景图片地址和大小
@@ -93,4 +93,26 @@
 .fj(@type: space-between){
   display: flex;
   justify-content: @type;
+}
+
+.btn{
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  color: #2e3f6a;
+  -webkit-appearance: none;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  transition: .1s;
+  font-weight: 400;
+  // padding: 12px 20px;
+  width: 108px;
+  height: 40px;
+  font-size: 15px;
+  border-radius: 7px;
 }

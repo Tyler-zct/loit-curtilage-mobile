@@ -47,25 +47,25 @@ import { useRouter } from 'vue-router'
 
 <style lang="less">
 html, body {
-  height: 100%;
+  // height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
 }
 #app {
-  height: 100%;
+  // height: 100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   // text-align: center;
-  color: #2c3e50;
+  color: #2e3f6a;
 }
 
 .router-view{
     width: 100%;
     height: auto;
-    position: absolute;
-    top: 0;
-    bottom: 0;
+    // position: absolute;
+    // top: 0;
+    // bottom: 0;
     margin: 0 auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -74,7 +74,7 @@ html, body {
 .slide-right-leave-active,
 .slide-left-enter-active,
 .slide-left-leave-active{
-    height: 100%;
+    // height: 100%;
     will-change: transform;
     transition: all 500ms;
     position: absolute;

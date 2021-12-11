@@ -7,17 +7,17 @@
  * 版权所有，侵权必究！
  */
 
-import axios from '../utils/axios'
+import { service } from '../utils/axios'
 
 export function getDetail(id) {
-  return axios.get(`/goods/detail/${id}`);
+  return service.get(`/goods/detail/${id}`);
 }
 
 export function getCategory() {
-  return axios.get('/categories');
+  return service.get('/categories');
 }
 
 export function search(params) {
-  return axios.get('/search', { params });
+  return service.get('/search', { params });
 }
 

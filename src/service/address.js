@@ -7,30 +7,30 @@
  * 版权所有，侵权必究！
  */
 
-import axios from '../utils/axios'
+import { service } from '../utils/axios'
 
 export function addAddress(params) {
-  return axios.post('/address', params);
+  return service.post('/address', params);
 }
 
 export function EditAddress(params) {
-  return axios.put('/address', params);
+  return service.put('/address', params);
 }
 
 export function DeleteAddress(id) {
-  return axios.delete(`/address/${id}`);
+  return service.delete(`/address/${id}`);
 }
 
 export function getDefaultAddress() {
-  return axios.get('/address/default');
+  return service.get('/address/default');
 }
 
 export function getAddressList() {
-  return axios.get('/address', { pageNumber: 1, pageSize: 1000 })
+  return service.get('/address', { pageNumber: 1, pageSize: 1000 })
 }
 
 export function getAddressDetail(id) {
-  return axios.get(`/address/${id}`)
+  return service.get(`/address/${id}`)
 }
 
 
