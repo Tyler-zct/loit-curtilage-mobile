@@ -10,11 +10,11 @@
       <div class="info-form">
         <van-form label-width="40%">
           <van-cell-group inset>
+            <!-- clearable -->
             <van-field
               v-model="form.homesteadArea"
               label="宅基地面积"
               placeholder="宅基地面积"
-              clearable
             >
               <template #extra>
                 <div>m<sup>2</sup></div>
@@ -70,6 +70,16 @@
                   <van-radio name="2">退还村集体</van-radio>
                   <van-radio name="3">其他</van-radio>
                 </van-radio-group>
+              </template>
+            </van-field>
+            <van-field
+              v-if="+form.presentHomesteadDisposalCase === 1"
+              v-model="form.keepArea"
+              label="保留面积"
+              placeholder="保留面积"
+            >
+              <template #extra>
+                <div>m<sup>2</sup></div>
               </template>
             </van-field>
           </van-cell-group>
@@ -289,10 +299,13 @@ export default {
         form.proposedDesignType = state.homesteadForm.proposedDesignType;
         form.isSeekNeighboursOpinion =
           state.homesteadForm.isSeekNeighboursOpinion;
-        form.proposedAgriculturalLandArea = state.homesteadForm.proposedAgriculturalLandArea
-        form.proposedArableLand = state.homesteadForm.proposedArableLand
-        form.proposedWoodlandArea = state.homesteadForm.proposedWoodlandArea
-        form.proposedConstructionArea = state.homesteadForm.proposedConstructionArea
+        form.proposedAgriculturalLandArea =
+          state.homesteadForm.proposedAgriculturalLandArea;
+        form.proposedArableLand = state.homesteadForm.proposedArableLand;
+        form.proposedWoodlandArea = state.homesteadForm.proposedWoodlandArea;
+        form.proposedConstructionArea =
+          state.homesteadForm.proposedConstructionArea;
+        form.keepArea = state.homesteadForm.keepArea;
       } else {
         state.homesteadForm = {};
       }
@@ -303,8 +316,8 @@ export default {
     };
     const goNext = () => {
       saveLocal();
-      const data = $localStorage.get('homesteadForm')
-      console.log(data)
+      const data = $localStorage.get("homesteadForm");
+      console.log(data);
       router.push({
         path: "/build-apply/build-info",
       });
@@ -341,10 +354,13 @@ export default {
       state.homesteadForm.presentHomesteadDisposalCase =
         form.presentHomesteadDisposalCase;
       state.homesteadForm.proposedUnusedArea = form.proposedUnusedArea;
-      state.homesteadForm.proposedAgriculturalLandArea = form.proposedAgriculturalLandArea;
-      state.homesteadForm.proposedArableLand = form.proposedArableLand
-      state.homesteadForm.proposedWoodlandArea = form.proposedWoodlandArea
-      state.homesteadForm.proposedConstructionArea = form.proposedConstructionArea
+      state.homesteadForm.proposedAgriculturalLandArea =
+        form.proposedAgriculturalLandArea;
+      state.homesteadForm.proposedArableLand = form.proposedArableLand;
+      state.homesteadForm.proposedWoodlandArea = form.proposedWoodlandArea;
+      state.homesteadForm.proposedConstructionArea =
+        form.proposedConstructionArea;
+      state.homesteadForm.keepArea = form.keepArea
       $localStorage.set("homesteadForm", JSON.stringify(state.homesteadForm));
     };
     const toWest = () => {

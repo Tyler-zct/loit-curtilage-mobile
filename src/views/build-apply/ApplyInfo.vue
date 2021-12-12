@@ -151,8 +151,8 @@ export default {
       console.log(areaValues);
       showArea.value = false;
       state.applyProvince = areaValues[0].code;
-      state.applyCity = areaValues[0].code;
-      state.applyCounty = areaValues[0].code;
+      state.applyCity = areaValues[1].code;
+      state.applyCounty = areaValues[2].code;
       result.value = areaValues
         .filter((item) => !!item)
         .map((item) => item.name)
