@@ -31,7 +31,7 @@ module.exports = {
         //   'link-color': '#F5222D',
         //   'border-radius-base': '4px'
         // },
-        javascriptEnabled: true
+        // javascriptEnabled: true
       }
     }
   },
@@ -109,7 +109,7 @@ module.exports = {
       .use('vue-loader')
       .loader('vue-loader')
       .tap((options) => {
-        options.compilerOptions.preserveWhitespace = true
+        // options.compilerOptions.preserveWhitespace = true
         return options
       })
       .end()
