@@ -63,7 +63,7 @@
 import { reactive, onMounted, toRefs } from 'vue'
 import ImageUpload from '@/components/ImageUpload'
 import { useRouter } from 'vue-router'
-import $localStorage from '@/utils/localStorage.js'
+// import $localStorage from '@/utils/localStorage.js'
 export default {
   components: {
     ImageUpload,

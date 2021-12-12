@@ -91,7 +91,7 @@
 import { reactive, ref, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
-import $localStorage from '@/utils/localStorage.js'
+// import $localStorage from '@/utils/localStorage.js'
 export default {
   setup() {
     const router = useRouter();
@@ -150,7 +150,7 @@ export default {
 
 <style lang="less" scpoed>
 .apply-info {
-  background-color: #f0f2f5;
+  background-color: #f6fbfa;
   overflow: auto;
   font-family: Microsoft YaHei;
 }

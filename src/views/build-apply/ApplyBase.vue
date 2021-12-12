@@ -207,7 +207,7 @@
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
-import $localStorage from '@/utils/localStorage.js'
+// import $localStorage from '@/utils/localStorage.js'
 export default {
   setup() {
     const router = useRouter();
@@ -225,7 +225,7 @@ export default {
     };
     const toWest = () => {
       router.push({
-        path: "",
+        path: "/build-apply/to-west",
       });  
     }
     return {
@@ -242,7 +242,7 @@ export default {
 
 <style lang="less" scoped>
 .apply-base {
-  background-color: #f0f2f5;
+  background-color: #f6fbfa;
   overflow: auto;
   font-family: Microsoft YaHei;
 }

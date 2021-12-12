@@ -152,7 +152,7 @@ export default {
 
 <style lang="less" scoped>
 .apply-notes {
-  background-color: #f0f2f5;
+  background-color: #f6fbfa;
   overflow: auto;
 }
 .apply-header {

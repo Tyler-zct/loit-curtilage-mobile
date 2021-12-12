@@ -129,7 +129,7 @@ export default {
 
 <style lang="less" scoped>
 .edit-info {
-  background-color: #f0f2f5;
+  background-color: #f6fbfa;
   font-family: Microsoft YaHei;
 }
 .info-message {

@@ -35,7 +35,7 @@ import {
   Skeleton,
   Image,
   Uploader,
-  RadioGroup, Radio 
+  RadioGroup, Radio, Picker,
 } from 'vant'
 import App from './App.vue'
 import store from './store'
@@ -92,6 +92,7 @@ app.use(ActionBarButton)
   .use(Uploader)
   .use(RadioGroup)
   .use(Radio)
+  .use(Picker)
 app.use(router)
 app.use(store)
 
