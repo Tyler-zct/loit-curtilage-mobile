@@ -86,11 +86,11 @@
     </div>
     <div class="footer-btn">
       <div>
-        <van-button block to="/build-apply/apply-notes">上一步</van-button>
+        <van-button block @click="goBack">上一步</van-button>
       </div>
-      <div>
+      <!-- <div>
         <van-button block @click="onSubmit">保存</van-button>
-      </div>
+      </div> -->
       <div>
         <van-button block type="primary" @click="goNext">下一步</van-button>
       </div>
@@ -131,7 +131,9 @@ export default {
 
     const init = async () => {
       state.applyUserInfo = JSON.parse($localStorage.get("applyUserInfo"));
-      state.familyMemberList = JSON.parse($localStorage.get("familyMemberList"))
+      state.familyMemberList = JSON.parse(
+        $localStorage.get("familyMemberList")
+      );
       if (state.applyUserInfo) {
         state.applyName = state.applyUserInfo.applyName;
         state.applySex = state.applyUserInfo.applySex;
@@ -142,17 +144,17 @@ export default {
         state.applyCity = state.applyUserInfo.applyCity;
         state.applyProvince = state.applyUserInfo.applyProvince;
         state.applyCounty = state.applyUserInfo.applyCounty;
-        // result.value =
-        //   state.applyProvince + "/" + state.applyCity + "/" + state.applyCounty;
+        result.value =
+          state.applyProvince + "/" + state.applyCity + "/" + state.applyCounty;
       }
     };
     // 地区选择
     const onConfirmArea = (areaValues) => {
       console.log(areaValues);
       showArea.value = false;
-      state.applyProvince = areaValues[0].code;
-      state.applyCity = areaValues[1].code;
-      state.applyCounty = areaValues[2].code;
+      state.applyProvince = areaValues[0].name;
+      state.applyCity = areaValues[1].name;
+      state.applyCounty = areaValues[2].name;
       result.value = areaValues
         .filter((item) => !!item)
         .map((item) => item.name)
@@ -167,15 +169,32 @@ export default {
       console.log(state);
       Toast.success("保存到草稿箱");
     };
+    const goBack = () => {
+      saveLocal();
+      router.push({
+        path: "/build-apply/apply-notes",
+      });
+    };
     const goNext = () => {
-      const data = $localStorage.get('applyUserInfo')
-      const data1 = $localStorage.get('familyMemberList')
-      console.log(data)
-      console.log(data1)
+      saveLocal();
       router.push({
         path: "/build-apply/apply-base",
       });
     };
+    const saveLocal = () => {
+      state.applyUserInfo = {};
+      state.applyUserInfo.applyName = state.applyName;
+      state.applyUserInfo.applySex = state.applySex;
+      state.applyUserInfo.applyAge = state.applyAge;
+      state.applyUserInfo.applyIdcard = state.applyIdcard;
+      state.applyUserInfo.applyHouseAddress = state.applyHouseAddress;
+      state.applyUserInfo.applyFamilySize = state.applyFamilySize;
+      state.applyUserInfo.applyCity = state.applyCity;
+      state.applyUserInfo.applyProvince = state.applyProvince;
+      state.applyUserInfo.applyCounty = state.applyCounty;
+      $localStorage.set("applyUserInfo", JSON.stringify(state.applyUserInfo));
+    };
+
     const handleToEdit = (id, type) => {
       state.applyUserInfo = {};
       state.applyUserInfo.applyName = state.applyName;
@@ -205,6 +224,7 @@ export default {
       onSubmit,
       handleToEdit,
       onConfirmArea,
+      goBack,
     };
   },
 };

@@ -82,6 +82,13 @@
                 <div>m<sup>2</sup></div>
               </template>
             </van-field>
+            <van-field
+              v-if="+form.presentHomesteadDisposalCase === 3"
+              v-model="form.otherDisposalCase"
+              label="其他处置情况"
+              placeholder="其他处置情况"
+            >
+            </van-field>
           </van-cell-group>
         </van-form>
       </div>
@@ -91,10 +98,34 @@
       <div class="info-form">
         <van-form label-width="45%">
           <van-cell-group inset>
-            <van-field
+            <!-- <van-field
               v-model="form.proposedLocationAddress"
               label="拟建位置"
               placeholder="拟建位置"
+            >
+            </van-field> -->
+            <van-field
+              readonly
+              v-model="fieldValue"
+              is-link
+              name="picker"
+              label="拟建位置"
+              placeholder="请选择所在地区"
+              @click="showPicker = true"
+            />
+            <van-popup v-model:show="showPicker" position="bottom">
+              <van-cascader
+                v-model="cascaderValue"
+                title="请选择所在地区"
+                :options="options"
+                @close="showPicker = false"
+                @finish="onFinish"
+              />
+            </van-popup>
+            <van-field
+              v-model="form.proposedLocationAddress"
+              label="拟建位置详细地址"
+              placeholder="拟建位置详细地址"
             >
             </van-field>
             <van-field
@@ -234,6 +265,13 @@
                 </van-radio-group>
               </template>
             </van-field>
+            <van-field
+              v-if="+form.isSeekNeighboursOpinion === 1"
+              v-model="form.neighboursOpinion"
+              label="相邻权利人意见"
+              placeholder="相邻权利人意见"
+            >
+            </van-field>
           </van-cell-group>
         </van-form>
       </div>
@@ -242,9 +280,9 @@
       <div>
         <van-button block to="" @click="goBack">上一步</van-button>
       </div>
-      <div>
+      <!-- <div>
         <van-button block @click="onSubmit">保存</van-button>
-      </div>
+      </div> -->
       <div>
         <van-button block type="primary" @click="goNext">下一步</van-button>
       </div>
@@ -253,13 +291,29 @@
 </template>
 
 <script>
-import { onMounted, reactive, toRefs } from "vue";
+import { onMounted, reactive, toRefs, ref } from "vue";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
 import $localStorage from "@/utils/localStorage.js";
 export default {
   setup() {
     const router = useRouter();
+    const fieldValue = ref("");
+    const cascaderValue = ref("");
+    const showPicker = ref(false);
+    const options = [
+      {
+        text: "棠口镇",
+        value: "350923104",
+        children: [
+          { text: "棠口村民委员会", value: "350923104201" },
+          { text: "孔源村民委员会", value: "350923104202" },
+          { text: "山棠村民委员会", value: "350923104203" },
+          { text: "龙源村民委员会", value: "350923104204" },
+          { text: "安溪村民委员会", value: "350923104205" },
+        ],
+      },
+    ];
     const form = reactive({});
     const state = reactive({
       homesteadForm: {},
@@ -306,6 +360,13 @@ export default {
         form.proposedConstructionArea =
           state.homesteadForm.proposedConstructionArea;
         form.keepArea = state.homesteadForm.keepArea;
+        form.neighboursOpinion = state.homesteadForm.neighboursOpinion;
+        form.otherDisposalCase = state.homesteadForm.otherDisposalCase;
+        form.proposedCounty = state.homesteadForm.proposedCounty;
+        form.proposedVillage = state.homesteadForm.proposedVillage;
+        if(form.proposedCounty && form.proposedVillage) {
+          fieldValue.value = form.proposedCounty + '/' + form.proposedVillage
+        }
       } else {
         state.homesteadForm = {};
       }
@@ -328,6 +389,15 @@ export default {
       router.push({
         path: "/build-apply/apply-info",
       });
+    };
+    // 全部选项选择完毕后，会触发 finish 事件
+    const onFinish = ({ selectedOptions }) => {
+      showPicker.value = false;
+      console.log(cascaderValue);
+      console.log(selectedOptions);
+      form.proposedCounty = selectedOptions[0].text;
+      form.proposedVillage = selectedOptions[1].text;
+      fieldValue.value = selectedOptions.map((option) => option.text).join("/");
     };
     const saveLocal = () => {
       state.homesteadForm.homesteadArea = form.homesteadArea;
@@ -360,7 +430,11 @@ export default {
       state.homesteadForm.proposedWoodlandArea = form.proposedWoodlandArea;
       state.homesteadForm.proposedConstructionArea =
         form.proposedConstructionArea;
-      state.homesteadForm.keepArea = form.keepArea
+      state.homesteadForm.keepArea = form.keepArea;
+      state.homesteadForm.neighboursOpinion = form.neighboursOpinion;
+      state.homesteadForm.otherDisposalCase = form.otherDisposalCase;
+      state.homesteadForm.proposedCounty = form.proposedCounty;
+      state.homesteadForm.proposedVillage = form.proposedVillage;
       $localStorage.set("homesteadForm", JSON.stringify(state.homesteadForm));
     };
     const toWest = () => {
@@ -370,11 +444,16 @@ export default {
     };
     return {
       form,
+      showPicker,
+      fieldValue,
+      cascaderValue,
+      options,
       ...toRefs(state),
       onSubmit,
       goNext,
       goBack,
       toWest,
+      onFinish,
     };
   },
 };
