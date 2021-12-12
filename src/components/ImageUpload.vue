@@ -40,6 +40,10 @@ export default {
       type: String,
       default: '',
     },
+    title: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -105,6 +109,7 @@ export default {
       fileUpload(formData).then((res) => {
         let fileRes = res.body.fileResponseData
         fileRes.type = this.fileType
+        fileRes.title = this.title
         this.fileList = this.fileServerPrefix + fileRes.filePath
         console.log(this.fileList)
         this.$emit('handleUploadSuccess', fileRes)

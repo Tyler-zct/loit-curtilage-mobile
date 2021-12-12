@@ -31,7 +31,13 @@
         <van-divider />
         <div class="container">
           <van-radio-group v-model="buildInfo.applyReasonsType" direction="horizontal" class="radio-group">
-            <van-radio v-for="(item, index) in reasonListDict" :key="index" :name="item.dictionaryValue" icon-size="15px" class="radio-item raido3item">
+            <van-radio
+              v-for="(item, index) in reasonListDict"
+              :key="index"
+              :name="item.dictionaryValue"
+              icon-size="15px"
+              class="radio-item raido3item"
+            >
               {{ item.dictionaryName }}
             </van-radio>
           </van-radio-group>
@@ -52,7 +58,7 @@
 import { reactive, onMounted, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import $localStorage from '@/utils/localStorage.js'
-import { getDictData } from '@/utils/data.js'
+// import { getDictData } from '@/utils/data.js'
 export default {
   components: {
     // sHeader
@@ -60,19 +66,29 @@ export default {
   setup() {
     const router = useRouter()
     const state = reactive({
-      buildListDict: [],
       buildInfo: {
         buildType: '1',
         applyReasonsType: '1',
       },
-      reasonListDict: [],
+      buildListDict: [
+        { dictionaryName: '原址翻建', dictionaryValue: 1 },
+        { dictionaryName: '改扩建', dictionaryValue: 2 },
+        { dictionaryName: '异地新建', dictionaryValue: 3 },
+      ],
+      reasonListDict: [
+        { dictionaryName: '无房户', dictionaryValue: 1 },
+        { dictionaryName: '危房户', dictionaryValue: 2 },
+        { dictionaryName: '住房困难户', dictionaryValue: 3 },
+        { dictionaryName: '五保户', dictionaryValue: 4 },
+        { dictionaryName: '其他', dictionaryValue: 5 },
+      ],
     })
-    getDictData('BUILD_TYPE').then((list) => {
-      state.buildListDict = list
-    })
-    getDictData('APPLY_REASONS_TYPE').then((list) => {
-      state.reasonListDict = list
-    })
+    // getDictData('BUILD_TYPE').then((list) => {
+    //   state.buildListDict = list
+    // })
+    // getDictData('APPLY_REASONS_TYPE').then((list) => {
+    //   state.reasonListDict = list
+    // })
     onMounted(async () => {
       if ($localStorage.get('buildInfo')) {
         state.buildInfo = JSON.parse($localStorage.get('buildInfo'))
@@ -80,6 +96,7 @@ export default {
     })
     // 上一步
     const goToPrevious = () => {
+      $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
       router.push({ path: `/build-apply/apply-base` })
     }
     // 下一步

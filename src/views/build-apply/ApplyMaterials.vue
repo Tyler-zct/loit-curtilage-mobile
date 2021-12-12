@@ -18,7 +18,7 @@
         <van-divider />
         <span v-if="item.desc" class="red-desc">{{ item.desc }}</span>
         <div class="container">
-          <image-upload v-model="item.imgUrl" :fileType="item.type" @handleUploadSuccess="handleUploadSuccess"></image-upload>
+          <image-upload v-model="item.imgUrl" :fileType="item.type" :title="item.title" @handleUploadSuccess="handleUploadSuccess"></image-upload>
         </div>
       </div>
     </div>
@@ -39,6 +39,7 @@ import $localStorage from '@/utils/localStorage.js'
 import { getDictData } from '@/utils/data.js'
 import { Toast } from 'vant'
 import { saveBuildApply } from '@/service/build-apply'
+import { getSign } from '@/service/upload'
 export default {
   components: {
     ImageUpload,
@@ -60,6 +61,7 @@ export default {
         { title: '与相邻权利人签订的书面协议或相邻权利人在房屋设计图上签字确认的材料', desc: '', imgUrl: '' },
         { title: '村协议', desc: '（传统保护村落或有特定要求的村落提供）', imgUrl: '' },
       ],
+      fileServerPrefix: '',
       allFileList: [],
       fileTypeDict: [],
     })
@@ -70,15 +72,40 @@ export default {
         state.materials.forEach((file) => {
           if (dict.dictionaryName.includes(file.title)) {
             file.type = dict.dictionaryValue
+            if (file.title === '房屋设计图') {
+              file.type = 'A09'
+            }
           }
         })
       })
-      console.log(state.materials[0])
     })
 
-    onMounted(async () => {})
+    onMounted(async () => {
+      if ($localStorage.get('attachInfoList')) {
+        // 获取配置信息
+        if ($localStorage.get('fileServerPrefix')) {
+          state.fileServerPrefix = $localStorage.get('fileServerPrefix')
+        } else {
+          getSign().then((res) => {
+            state.fileServerPrefix = res.data.fileServerPrefix + '/'
+            $localStorage.set('fileServerPrefix', state.fileServerPrefix)
+          })
+        }
+        let attachInfoList = JSON.parse($localStorage.get('attachInfoList'))
+        attachInfoList.forEach((atta) => {
+          state.materials.forEach((mater) => {
+            if (atta.type === mater.type) {
+              mater.imgUrl = state.fileServerPrefix + atta.url
+            }
+          })
+        })
+        // console.log(attachInfoList)
+        // console.log(state.materials)
+      }
+    })
 
     const goToPrevious = () => {
+      $localStorage.set('attachInfoList', JSON.stringify(state.allFileList))
       router.push({ path: `/build-apply/build-info` })
     }
     const handleUploadSuccess = (fileRes) => {
@@ -88,6 +115,7 @@ export default {
         suffix: fileRes.fileType,
         type: fileRes.type,
         url: fileRes.filePath,
+        title: fileRes.title,
       }
       const result = state.allFileList.findIndex((v) => {
         return v.type === fileRes.type
@@ -106,13 +134,17 @@ export default {
       $localStorage.set('attachInfoList', JSON.stringify(state.allFileList))
       Toast.success('保存成功')
     }
+    // 提交数据
     const handleSubmit = () => {
       const applyMaterials = {
         attachInfoList: JSON.parse($localStorage.get('attachInfoList')),
-        isSubmit: '0',
+        familyMemberList: JSON.parse($localStorage.get('familyMemberList')),
+        isSubmit: '1',
       }
+      const homesteadForm = JSON.parse($localStorage.get('homesteadForm'))
+      const applyUserInfo = JSON.parse($localStorage.get('applyUserInfo'))
       const buildInfo = JSON.parse($localStorage.get('buildInfo'))
-      let params = Object.assign(applyMaterials, buildInfo)
+      let params = Object.assign(applyMaterials, buildInfo, homesteadForm, applyUserInfo)
       saveBuildApply(params).then((res) => {
         if (res.code == 100) {
           Toast(res.msg)

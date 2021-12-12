@@ -6,10 +6,13 @@ let localStorage = {
 		}
 		window.localStorage.setItem(name, content);
 	},
-
 	get: function (name) {
 		if (!name) return;
 		return window.localStorage.getItem(name);
+	},
+	removeItem: function (name) {
+		if (!name) return;
+		return window.localStorage.removeItem(name)
 	}
 };
 
