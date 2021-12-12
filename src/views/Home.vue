@@ -34,6 +34,7 @@ import { reactive, onMounted, toRefs, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import navBar from '@/components/NavBar'
 // import { getDictDataList } from '@/service/home'
+// import bannerImg from '@/'
 import { getLocal } from '@/common/js/utils'
 import { Toast } from 'vant'
 export default {

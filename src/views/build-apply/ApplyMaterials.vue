@@ -17,7 +17,8 @@
         <div class="title">农村宅基地使用承诺书</div>
         <van-divider />
         <div class="container">
-          <van-uploader v-model="letterList" multiple upload-icon="plus" />
+          <van-uploader v-model="letterList" multiple  />
+          <ImageUpload />
         </div>
       </div>
     </div>
@@ -58,12 +59,12 @@
 </template>
 
 <script>
-// import sHeader from '@/components/SimpleHeader'
 import { reactive, onMounted, toRefs } from 'vue'
+import ImageUpload from '@/components/SimpleHeader'
 import { useRouter } from 'vue-router'
 export default {
   components: {
-    // sHeader
+    ImageUpload
   },
   setup() {
     const router = useRouter()

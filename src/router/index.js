@@ -31,6 +31,32 @@ const router = createRouter({
         index: 2
       }
     },
+    // 建房信息
+    {
+      path: '/build-apply/apply-base',
+      name: 'ApplyBase',
+      component: () => import('@/views/build-apply/ApplyBase.vue')
+    },
+    {
+      path: '/build-apply/apply-info',
+      name: 'ApplyInfo',
+      component: () => import('@/views/build-apply/ApplyInfo.vue')
+    },
+    {
+      path: '/build-apply/apply-notes',
+      name: 'ApplyNotes',
+      component: () => import('@/views/build-apply/ApplyNotes.vue')
+    },
+    {
+      path: '/build-apply/edit-info',
+      name: 'EditInfo',
+      component: () => import('@/views/build-apply/EditInfo.vue')
+    },
+    {
+      path: '/build-apply/to-west',
+      name: 'ToWest',
+      component: () => import('@/views/build-apply/ToWest.vue')
+    },
     // 申报材料上传
     {
       path: '/build-apply/apply-materials',
