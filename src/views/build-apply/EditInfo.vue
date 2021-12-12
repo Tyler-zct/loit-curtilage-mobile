@@ -10,14 +10,14 @@
         <van-form label-width="35%" @submit="onSubmit">
           <van-cell-group inset>
             <van-field
-              v-model="name"
+              v-model="form.name"
               label="姓名"
               placeholder="姓名"
               :rules="[{ required: true, message: '请填写姓名' }]"
             />
             <van-field
               readonly
-              v-model="sex"
+              v-model="form.sex"
               is-link
               name="picker"
               label="性别"
@@ -31,20 +31,20 @@
                 @cancel="showPicker = false"
               />
             </van-popup>
-            <van-field v-model="age" label="年龄" placeholder="年龄" />
+            <van-field v-model="form.age" label="年龄" placeholder="年龄" />
             <van-field
               v-model="relation"
               label="与申请人关系"
               placeholder="与申请人关系"
             />
             <van-field
-              v-model="cardNum"
+              v-model="form.idcard"
               label="身份证号"
               placeholder="身份证号"
               :rules="[{ required: true, message: '请填写身份证号' }]"
             />
             <van-field
-              v-model="location"
+              v-model="form.registeredResidence"
               label="户口所在地"
               placeholder="户口所在地"
             />
@@ -81,6 +81,7 @@ export default {
     const cardNum = ref("");
     const location = ref("");
     const columns = ["男", "女"];
+    const form =reactive({})
     const state = reactive({
       userId: "",
       type: "",
@@ -110,6 +111,7 @@ export default {
       showPicker.value = false;
     };
     return {
+      form,
       name,
       sex,
       age,
