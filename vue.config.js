@@ -12,7 +12,7 @@ const name = '农村建房安全监管平台' // page title
 // For example, Mac: sudo npm run
 // You can change the port by the following methods:
 // port = 9528 npm run dev OR npm run dev --port = 9528
-const port = process.env.port || process.env.npm_config_port || 9524 // dev port
+const port = process.env.port || process.env.npm_config_port || 9525 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -120,14 +120,14 @@ module.exports = {
       )
 
     config.when(process.env.NODE_ENV !== 'development', (config) => {
-      config
-        .plugin('ScriptExtHtmlWebpackPlugin')
-        .after('html')
-        .use('script-ext-html-webpack-plugin', [{
-          // `runtime` must same as runtimeChunk name. default is `runtime`
-          inline: /runtime\..*\.js$/
-        }])
-        .end()
+      // config
+      //   .plugin('ScriptExtHtmlWebpackPlugin')
+      //   .after('html')
+      //   .use('script-ext-html-webpack-plugin', [{
+      //     // `runtime` must same as runtimeChunk name. default is `runtime`
+      //     inline: /runtime\..*\.js$/
+      //   }])
+      //   .end()
       config.optimization.splitChunks({
         chunks: 'all',
         cacheGroups: {

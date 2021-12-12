@@ -73,6 +73,49 @@ const router = createRouter({
       name: 'BuildInfo',
       component: () => import('@/views/build-apply/BuildInfo.vue')
     },
+
+    // 宅基地情况
+    {
+      path: '/start-apply/apply-base',
+      name: 'startApplyBase',
+      component: () => import('@/views/start-apply/ApplyBase.vue')
+    },
+    // 申请人员信息
+    {
+      path: '/start-apply/apply-info',
+      name: 'startApplyInfo',
+      component: () => import('@/views/start-apply/ApplyInfo.vue')
+    },
+    // 申请须知
+    {
+      path: '/start-apply/apply-notes',
+      name: 'startApplyNotes',
+      component: () => import('@/views/start-apply/ApplyNotes.vue')
+    },
+    // 编辑家庭成员信息
+    {
+      path: '/start-apply/edit-info',
+      name: 'startEditInfo',
+      component: () => import('@/views/start-apply/EditInfo.vue')
+    },
+    // 西至
+    {
+      path: '/start-apply/to-west',
+      name: 'startToWest',
+      component: () => import('@/views/start-apply/ToWest.vue')
+    },
+    // 申报材料上传
+    {
+      path: '/start-apply/apply-materials',
+      name: 'startApplyMaterials',
+      component: () => import('@/views/start-apply/ApplyMaterials.vue')
+    },
+    // 建房信息
+    {
+      path: '/start-apply/build-info',
+      name: 'startBuildInfo',
+      component: () => import('@/views/start-apply/BuildInfo.vue')
+    },
     {
       path: '/category',
       name: 'category',
