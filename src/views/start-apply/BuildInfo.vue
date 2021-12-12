@@ -68,19 +68,19 @@ export default {
     const state = reactive({
       buildInfo: {
         buildType: '1',
-        applyReasonsType: '1',
+        applyReasonsType: "5",
       },
       buildListDict: [
-        { dictionaryName: '原址翻建', dictionaryValue: 1 },
-        { dictionaryName: '改扩建', dictionaryValue: 2 },
-        { dictionaryName: '异地新建', dictionaryValue: 3 },
+        { dictionaryName: '原址翻建', dictionaryValue: '1' },
+        { dictionaryName: '改扩建', dictionaryValue: '2' },
+        { dictionaryName: '异地新建', dictionaryValue: '3' },
       ],
       reasonListDict: [
-        { dictionaryName: '无房户', dictionaryValue: 1 },
-        { dictionaryName: '危房户', dictionaryValue: 2 },
-        { dictionaryName: '住房困难户', dictionaryValue: 3 },
-        { dictionaryName: '五保户', dictionaryValue: 4 },
-        { dictionaryName: '其他', dictionaryValue: 5 },
+        { dictionaryName: '无房户', dictionaryValue: '1' },
+        { dictionaryName: '危房户', dictionaryValue: '2' },
+        { dictionaryName: '住房困难户', dictionaryValue: '3' },
+        { dictionaryName: '五保户', dictionaryValue: '4' },
+        { dictionaryName: '其他', dictionaryValue: '5' },
       ],
     })
     // getDictData('BUILD_TYPE').then((list) => {

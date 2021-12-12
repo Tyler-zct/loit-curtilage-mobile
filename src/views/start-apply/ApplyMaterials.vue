@@ -17,7 +17,8 @@
         <div class="title">{{ item.title }}</div>
         <van-divider />
         <span v-if="item.desc" class="red-desc">{{ item.desc }}</span>
-        <div class="container">
+        <div class="container" style="display:flex">
+          <van-image width="80" height="80" fit="cover" :src="item.imgUrl" style="margin-right: 5px" v-if="item.imgUrl" />
           <image-upload v-model="item.imgUrl" :fileType="item.type" :title="item.title" @handleUploadSuccess="handleUploadSuccess"></image-upload>
         </div>
       </div>
@@ -40,6 +41,16 @@ import { getDictData } from '@/utils/data.js'
 import { Toast } from 'vant'
 // import { saveBuildApply } from '@/service/build-apply'
 // import { getSign } from '@/service/upload'
+
+import fileImage1 from '@/assets/fileImage/宅基地使用承诺书.jpg'
+import fileImage2 from '@/assets/fileImage/股权证复印件.png'
+import fileImage3 from '@/assets/fileImage/身份证复印件.png'
+import fileImage4 from '@/assets/fileImage/户口本复印件.png'
+import fileImage5 from '@/assets/fileImage/用地界限申请表.jpg'
+import fileImage6 from '@/assets/fileImage/黄武汉红线图.jpg'
+import fileImage7 from '@/assets/fileImage/土地证明03.jpg'
+import fileImage10 from '@/assets/fileImage/村民小组同意书.jpg'
+import fileImage11 from '@/assets/fileImage/村民小组同意书.jpg'
 export default {
   components: {
     ImageUpload,
@@ -48,17 +59,17 @@ export default {
     const router = useRouter()
     const state = reactive({
       materials: [
-        { title: '农村宅基地使用承诺书', desc: '', imgUrl: '' },
-        { title: '股权证复印件', desc: '', imgUrl: '' },
-        { title: '申请人身份证复印件', desc: '', imgUrl: '' },
-        { title: '家庭成员户口本复印件', desc: '', imgUrl: '' },
-        { title: '个人建房用地界限申请表', desc: '（在红线图复印件四至签字盖章）', imgUrl: '' },
-        { title: '住宅建设用地规划红线图', desc: '（地类不明确的需勘测定界报告、勘测定界图）', imgUrl: '' },
-        { title: '无宅基地证明', desc: '（无旧宅基地的提供）', imgUrl: '' },
+        { title: '农村宅基地使用承诺书', desc: '', imgUrl: fileImage1 },
+        { title: '股权证复印件', desc: '', imgUrl: fileImage2 },
+        { title: '申请人身份证复印件', desc: '', imgUrl: fileImage3 },
+        { title: '家庭成员户口本复印件', desc: '', imgUrl: fileImage4 },
+        { title: '个人建房用地界限申请表', desc: '（在红线图复印件四至签字盖章）', imgUrl: fileImage5 },
+        { title: '住宅建设用地规划红线图', desc: '（地类不明确的需勘测定界报告、勘测定界图）', imgUrl: fileImage6 },
+        { title: '无宅基地证明', desc: '（无旧宅基地的提供）', imgUrl: fileImage7 },
         { title: '房屋设计图', desc: '', imgUrl: '' },
         { title: '危房鉴定书', desc: '（原房屋为危房提供）', imgUrl: '' },
-        { title: '村民小组同意书', desc: '', imgUrl: '' },
-        { title: '与相邻权利人签订的书面协议或相邻权利人在房屋设计图上签字确认的材料', desc: '', imgUrl: '' },
+        { title: '村民小组同意书', desc: '', imgUrl: fileImage10 },
+        { title: '与相邻权利人签订的书面协议或相邻权利人在房屋设计图上签字确认的材料', desc: '', imgUrl: fileImage11 },
         { title: '村协议', desc: '（传统保护村落或有特定要求的村落提供）', imgUrl: '' },
       ],
       fileServerPrefix: '',

@@ -316,7 +316,36 @@ export default {
     ];
     const form = reactive({});
     const state = reactive({
-      homesteadForm: {},
+      homesteadForm: {
+        homesteadArea: 204.4,
+        preCapitaHomesteadArea: 40.9,
+        certOwnershipNo1: 0,
+        constructionArea: 204.4,
+        preCapitaConstructionArea: 40.9,
+        certOwnershipNo2: 0,
+        presentHomesteadDisposalCase: "1",
+        proposedLocationAddress: "黄厝41号",
+        proposedHomesteadArea: 204.4,
+        proposedEastTo: "滴水沟",
+        proposedWestTo: "道路",
+        proposedSouthTo: "黄守炉等共墙",
+        proposedNorthTo: "道路",
+        proposedConstructionLandArea: 204.4,
+        proposedUnusedArea: 0,
+        proposedBuildingStorey: "3",
+        proposedBuildingHeight: "12",
+        proposedDesignType: "1",
+        isSeekNeighboursOpinion: true,
+        proposedAgriculturalLandArea: 0,
+        proposedArableLand: 0,
+        proposedWoodlandArea: 0,
+        proposedConstructionArea: 204.4,
+        keepArea: 204.4,
+        neighboursOpinion: "同意",
+        otherDisposalCase: "",
+        proposedTown: "350923104",
+        proposedVillage: "350923104201",
+      },
     });
     onMounted(() => {
       init();
