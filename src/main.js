@@ -39,6 +39,7 @@ import {
   Radio, 
   Picker,
   Area,
+  Cascader,
 } from 'vant'
 import App from './App.vue'
 import store from './store'
@@ -97,6 +98,7 @@ app.use(ActionBarButton)
   .use(Radio)
   .use(Picker)
   .use(Area)
+  .use(Cascader)
 app.use(router)
 app.use(store)
 
