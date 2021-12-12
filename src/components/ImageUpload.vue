@@ -2,7 +2,6 @@
   <div>
     <van-uploader
       :after-read="afterRead"
-      :before-read="beforeRead"
       :max-count="3"
       v-model="getFileList"
       upload-icon="plus"
@@ -36,6 +35,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    fileType: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -86,63 +89,26 @@ export default {
   },
   methods: {
     fetchData() {},
-    // 文件读取前处理
-    beforeRead() {
-      console.log('beforeRead')
-      let ossExpireTime = parseInt($localStorage.get('ossExpireTime')) //读取是否有oss过期时间
-      if (ossExpireTime && +new Date() + 1 * 60 * 1000 < +new Date(ossExpireTime)) {
-        let fileServerPrefix = JSON.parse($localStorage.get('fileServerPrefix'))
-        // 数据
-        this.fileServerPrefix = fileServerPrefix
-      } else {
-        getSign().then((res) => {
-          this.fileServerPrefix = res.data.fileServerPrefix
-          $localStorage.set('fileServerPrefix', res.data.fileServerPrefix)
-        })
-      }
-    },
     // 上传图片
     afterRead(file) {
+      // 获取配置信息
+      if ($localStorage.get('fileServerPrefix')) {
+        this.fileServerPrefix = $localStorage.get('fileServerPrefix')
+      } else {
+        getSign().then((res) => {
+          this.fileServerPrefix = res.data.fileServerPrefix + '/'
+          $localStorage.set('fileServerPrefix', this.fileServerPrefix)
+        })
+      }
       var formData = new FormData()
       formData.append('file', file.file)
       fileUpload(formData).then((res) => {
-        console.log(this.fileList)
         let fileRes = res.body.fileResponseData
-        console.log(this.fileServerPrefix + fileRes.filePath)
-        //   this.fileList.push({ url: this.lookFile + fileRes.filePath })
+        fileRes.type = this.fileType
         this.fileList = this.fileServerPrefix + fileRes.filePath
+        console.log(this.fileList)
         this.$emit('handleUploadSuccess', fileRes)
       })
-      //   upload(formData).then((res) => {
-      //     // console.log(this.fileList)
-      //     if (this.fileList) {
-      //       var arr = this.fileList.split(',')
-      //       // console.log(fileList)
-      //       arr.push(res.data)
-      //       this.fileList = arr.join(',')
-      //       return false
-      //     }
-      //     this.fileList = res.data
-      //   })
-      // policy().then(res => {
-      //   const client = new OSS({
-      //     region: "oss-cn-qingdao", // 创建Bucket时会选择不同地区，根据自己的选择填入对应名称
-      //     accessKeyId: res.data.accessKeyId, // 填入你的accessKeyId
-      //     accessKeySecret: "J2foxqRiXz4pLVOiX15YfIVByYHCE6", // 填入你的accessKeySecret
-      //     bucket: "xht-1", // 填入你的bucket名
-      //     // endpoint: 'https://' // 配置 https:// 请求
-      //   });
-
-      //   const Name = file.file.name;
-      //   const suffix = Name.substr(Name.indexOf(".")); // 文件后缀
-      //   const filename = Date.parse(new Date()) + suffix; // 组成新文件名
-      //   client
-      //     .multipartUpload(filename, file.file)
-      //     .then(res => {
-      //     })
-      //     .catch(err => {
-      //     });
-      // });
     },
     // 文件过大
     oversize() {

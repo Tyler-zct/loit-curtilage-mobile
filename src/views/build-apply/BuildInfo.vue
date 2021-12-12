@@ -17,10 +17,10 @@
         <div class="title">建房类型</div>
         <van-divider />
         <div class="container">
-          <van-radio-group v-model="buildType" direction="horizontal" class="radio-group">
-            <van-radio :name="1" icon-size="15px" class="radio-item">保留</van-radio>
-            <van-radio :name="2" icon-size="15px" class="radio-item">退还村集体</van-radio>
-            <van-radio :name="3" icon-size="15px" class="radio-item">其他</van-radio>
+          <van-radio-group v-model="buildInfo.buildType" direction="horizontal" class="radio-group">
+            <van-radio v-for="(item, index) in buildListDict" :key="index" :name="item.dictionaryValue" icon-size="15px" class="radio-item">
+              {{ item.dictionaryName }}
+            </van-radio>
           </van-radio-group>
         </div>
       </div>
@@ -30,10 +30,10 @@
         <div class="title">申请理由</div>
         <van-divider />
         <div class="container">
-          <van-radio-group v-model="reason" direction="horizontal" class="radio-group">
-            <van-radio v-for="(item, index) in reasonList" :key="index" :name="item.value" icon-size="15px" class="radio-item raido3item">{{
-              item.label
-            }}</van-radio>
+          <van-radio-group v-model="buildInfo.applyReasonsType" direction="horizontal" class="radio-group">
+            <van-radio v-for="(item, index) in reasonListDict" :key="index" :name="item.dictionaryValue" icon-size="15px" class="radio-item raido3item">
+              {{ item.dictionaryName }}
+            </van-radio>
           </van-radio-group>
         </div>
       </div>
@@ -41,7 +41,7 @@
 
     <div class="btn-group">
       <button type="button" class="cus-btn btn-default" @click="goToPrevious">上一步</button>
-      <button type="button" class="cus-btn btn-default">保存</button>
+      <button type="button" class="cus-btn btn-default" @click="handleSave">保存</button>
       <button type="button" class="cus-btn btn-primary" @click="goToNext">下一步</button>
     </div>
   </div>
@@ -52,6 +52,7 @@
 import { reactive, onMounted, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import $localStorage from '@/utils/localStorage.js'
+import { getDictData } from '@/utils/data.js'
 export default {
   components: {
     // sHeader
@@ -59,29 +60,43 @@ export default {
   setup() {
     const router = useRouter()
     const state = reactive({
-      buildType: 1,
-      reason: 1,
-      reasonList: [
-        { label: '无房户', value: 1 },
-        { label: '危房户', value: 2 },
-        { label: '住房困难户', value: 3 },
-        { label: '五保户', value: 4 },
-        { label: '其他', value: 5 },
-      ],
+      buildListDict: [],
+      buildInfo: {
+        buildType: '1',
+        applyReasonsType: '1',
+      },
+      reasonListDict: [],
     })
-    onMounted(async () => {})
-
+    getDictData('BUILD_TYPE').then((list) => {
+      state.buildListDict = list
+    })
+    getDictData('APPLY_REASONS_TYPE').then((list) => {
+      state.reasonListDict = list
+    })
+    onMounted(async () => {
+      if ($localStorage.get('buildInfo')) {
+        state.buildInfo = JSON.parse($localStorage.get('buildInfo'))
+      }
+    })
+    // 上一步
     const goToPrevious = () => {
       router.push({ path: `/build-apply/apply-base` })
     }
+    // 下一步
     const goToNext = () => {
+      $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
       router.push({ path: `/build-apply/apply-materials` })
+    }
+    // 保存
+    const handleSave = () => {
+      $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
     }
 
     return {
       ...toRefs(state),
       goToNext,
       goToPrevious,
+      handleSave,
     }
   },
 }

@@ -62,13 +62,13 @@ service.interceptors.response.use(res => {
     Toast.fail('服务端异常！')
     return Promise.reject(res)
   }
-  // if (res.data.resultCode != 200) {
-  //   if (res.data.message) Toast.fail(res.data.message)
-  //   // if (res.data.resultCode == 416) {
-  //   //   router.push({ path: '/login' })
-  //   // }
-  //   return Promise.reject(res.data)
-  // }
+  if (res.data.code != 100) {
+    if (res.data.msg) Toast.fail(res.data.msg)
+    // if (res.data.resultCode == 416) {
+    //   router.push({ path: '/login' })
+    // }
+    return Promise.reject(res.data)
+  }
   return res.data
 })
 
