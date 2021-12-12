@@ -3,7 +3,7 @@
     <div class="apply-header">
       <div class="header-icon">2</div>
       <div class="header-title">申请人员信息</div>
-      <div class="header-page">2/{{ pageSize }}</div>
+      <div class="header-page">2/5</div>
     </div>
     <div class="info-message">
       <div class="info-title">申请人信息</div>
@@ -11,14 +11,14 @@
         <van-form label-width="30%" @submit="onSubmit">
           <van-cell-group inset>
             <van-field
-              v-model="applyForm.name"
+              v-model="applyName"
               label="姓名"
               placeholder="姓名"
               :rules="[{ required: true, message: '请填写姓名' }]"
             />
             <van-field
               readonly
-              v-model="applyForm.sex"
+              v-model="applySex"
               is-link
               name="picker"
               label="性别"
@@ -32,25 +32,36 @@
                 @cancel="showPicker = false"
               />
             </van-popup>
-            <van-field v-model="age" label="年龄" placeholder="年龄" />
+            <van-field v-model="applyAge" label="年龄" placeholder="年龄" />
             <van-field
-              v-model="applyForm.cardNum"
+              v-model="applyIdcard"
               label="身份证号"
               placeholder="身份证号"
               :rules="[{ required: true, message: '请填写身份证号' }]"
             />
             <van-field
-              v-model="applyForm.location"
+              readonly
+              is-link
+              name="area"
+              v-model="result"
               label="户口所在地"
-              placeholder="户口所在地"
+              placeholder="点击选择省市区"
+              @click="showArea = true"
             />
+            <van-popup v-model:show="showArea" position="bottom">
+              <van-area
+                :area-list="areaList"
+                @confirm="onConfirmArea"
+                @cancel="showArea = false"
+              />
+            </van-popup>
             <van-field
-              v-model="applyForm.address"
+              v-model="applyHouseAddress"
               label="家庭住址"
               placeholder="家庭住址"
             />
             <van-field
-              v-model="applyForm.homeNum"
+              v-model="applyFamilySize"
               label="家庭人口数"
               placeholder="家庭人口数"
             />
@@ -65,7 +76,7 @@
       </div>
       <div class="info-user">
         <van-cell
-          v-for="item in userList"
+          v-for="item in familyMemberList"
           :key="item.id"
           is-link
           :title="item.name"
@@ -88,61 +99,112 @@
 </template>
 
 <script>
-import { reactive, ref, toRefs } from "vue";
+import { onMounted, reactive, ref, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
-import $localStorage from '@/utils/localStorage.js'
+import { areaList } from "@vant/area-data";
+import $localStorage from "@/utils/localStorage.js";
 export default {
   setup() {
     const router = useRouter();
+    // const route = useRoute();
     const showPicker = ref(false);
     const columns = ["男", "女"];
-    const applyForm = reactive({})
     const state = reactive({
-      pageSize: 5,
-      userList: [
-        {
-          id: 0,
-          name: "陆辰",
-        },
-        {
-          id: 1,
-          name: "张文丽",
-        },
-        {
-          id: 2,
-          name: "陆小茗",
-        },
-      ],
+      applyName: "",
+      applySex: "",
+      applyAge: "",
+      applyIdcard: "",
+      applyHouseAddress: "",
+      applyFamilySize: "",
+      applyProvince: "",
+      applyCity: "",
+      applyCounty: "",
+      applyUserInfo: {},
+      familyMemberList: [],
     });
+    const result = ref("");
+    const showArea = ref(false);
+    onMounted(() => {
+      init();
+    });
+
+    const init = async () => {
+      state.applyUserInfo = JSON.parse($localStorage.get("applyUserInfo"));
+      state.familyMemberList = JSON.parse($localStorage.get("familyMemberList"))
+      if (state.applyUserInfo) {
+        state.applyName = state.applyUserInfo.applyName;
+        state.applySex = state.applyUserInfo.applySex;
+        state.applyAge = state.applyUserInfo.applyAge;
+        state.applyIdcard = state.applyUserInfo.applyIdcard;
+        state.applyHouseAddress = state.applyUserInfo.applyHouseAddress;
+        state.applyFamilySize = state.applyUserInfo.applyFamilySize;
+        state.applyCity = state.applyUserInfo.applyCity;
+        state.applyProvince = state.applyUserInfo.applyProvince;
+        state.applyCounty = state.applyUserInfo.applyCounty;
+        // result.value =
+        //   state.applyProvince + "/" + state.applyCity + "/" + state.applyCounty;
+      }
+    };
+    // 地区选择
+    const onConfirmArea = (areaValues) => {
+      console.log(areaValues);
+      showArea.value = false;
+      state.applyProvince = areaValues[0].code;
+      state.applyCity = areaValues[0].code;
+      state.applyCounty = areaValues[0].code;
+      result.value = areaValues
+        .filter((item) => !!item)
+        .map((item) => item.name)
+        .join("/");
+    };
+    // 性别选择
     const onConfirm = (value) => {
-      applyForm.sex = value;
+      state.applySex = value;
       showPicker.value = false;
     };
     const onSubmit = () => {
-      console.log("onSubmit");
+      console.log(state);
       Toast.success("保存到草稿箱");
     };
     const goNext = () => {
+      const data = $localStorage.get('applyUserInfo')
+      const data1 = $localStorage.get('familyMemberList')
+      console.log(data)
+      console.log(data1)
       router.push({
         path: "/build-apply/apply-base",
       });
     };
     const handleToEdit = (id, type) => {
+      state.applyUserInfo = {};
+      state.applyUserInfo.applyName = state.applyName;
+      state.applyUserInfo.applySex = state.applySex;
+      state.applyUserInfo.applyAge = state.applyAge;
+      state.applyUserInfo.applyIdcard = state.applyIdcard;
+      state.applyUserInfo.applyHouseAddress = state.applyHouseAddress;
+      state.applyUserInfo.applyFamilySize = state.applyFamilySize;
+      state.applyUserInfo.applyCity = state.applyCity;
+      state.applyUserInfo.applyProvince = state.applyProvince;
+      state.applyUserInfo.applyCounty = state.applyCounty;
+      $localStorage.set("applyUserInfo", JSON.stringify(state.applyUserInfo));
       router.push({
         path: `/build-apply/edit-info`,
         query: { id: id, type: type },
       });
     };
     return {
-      applyForm,
       showPicker,
       columns,
+      result,
+      showArea,
+      areaList,
       ...toRefs(state),
       goNext,
       onConfirm,
       onSubmit,
       handleToEdit,
+      onConfirmArea,
     };
   },
 };
@@ -150,9 +212,9 @@ export default {
 
 <style lang="less" scpoed>
 .apply-info {
-  background-color: #f0f2f5;
-  overflow: auto;
+  background-color: #f6fbfa;
   font-family: Microsoft YaHei;
+  overflow: auto;
 }
 .apply-header {
   display: flex;

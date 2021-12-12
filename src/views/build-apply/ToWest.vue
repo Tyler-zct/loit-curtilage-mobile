@@ -1,7 +1,7 @@
 <template>
   <div class="to-west">
     <div class="info-message">
-      <div class="info-title">西至</div>
+      <div class="info-title">四至</div>
       <div class="info-form">
         <van-form label-width="35%" @submit="onSubmit">
           <van-cell-group inset>
@@ -10,7 +10,7 @@
               v-model="form.value2"
               name="西至"
               label="西至"
-              placeholder="点击选择西至"
+              placeholder="西至"
             />
             <van-field v-model="form.value3" label="南至" placeholder="南至" />
             <van-field v-model="form.value4" label="北至" placeholder="北至" />
@@ -20,7 +20,7 @@
     </div>
     <div class="footer_btn">
       <div>
-        <van-button block @click="toCancel">取消</van-button>
+        <van-button block to="/build-apply/apply-base">取消</van-button>
       </div>
       <div>
         <van-button block type="primary" native-type="submit">
@@ -48,8 +48,9 @@ export default {
 
 <style lang="less" scoped>
 .to-west {
-  background-color: #f0f2f5;
+  background-color: #f6fbfa;
   font-family: Microsoft YaHei;
+  overflow: auto;
 }
 .info-message {
   background: #ffffff;
@@ -61,6 +62,14 @@ export default {
     font-weight: bold;
     color: #2e3f6a;
     border-bottom: 1px solid #dee1eb;
+  }
+}
+.footer_btn {
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+  div {
+    width: 48%;
   }
 }
 </style>

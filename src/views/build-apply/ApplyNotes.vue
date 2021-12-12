@@ -31,7 +31,7 @@
     </div>
     <div class="time-limit">
       <div class="title">办理时限</div>
-      <div class="des">{{ jobDay }}工作日</div>
+      <div class="des">{{ jobDay }}个工作日</div>
     </div>
     <div class="footer-btn">
       <van-button type="primary" round block @click="goNext"
@@ -152,7 +152,7 @@ export default {
 
 <style lang="less" scoped>
 .apply-notes {
-  background-color: #f0f2f5;
+  background-color: #f6fbfa;
   overflow: auto;
 }
 .apply-header {
