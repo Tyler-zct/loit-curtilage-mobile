@@ -111,17 +111,49 @@ export default {
     const showPicker = ref(false);
     const columns = ["男", "女"];
     const state = reactive({
-      applyName: "",
-      applySex: "",
-      applyAge: "",
-      applyIdcard: "",
-      applyHouseAddress: "",
-      applyFamilySize: "",
+      applyName: "黄武汉",
+      applySex: "男",
+      applyAge: "35",
+      applyIdcard: "352228198409161519",
+      applyHouseAddress: "棠口村黄厝41号",
+      applyFamilySize: "5",
       applyProvince: "",
       applyCity: "",
       applyCounty: "",
       applyUserInfo: {},
-      familyMemberList: [],
+      familyMemberList: [
+        {
+          id:0,
+          name:'陆万章',
+          age:'33',
+          idcard:'350923201106230037',
+          applyRelationship:'配偶',
+          registeredResidence:'棠口镇',
+        },
+        {
+          id:1,
+          name:'黄传鑫',
+          age:'10',
+          idcard:'350923201106230037',
+          applyRelationship:'子女',
+          registeredResidence:'棠口镇',
+        },  {
+          id:1,
+          name:'黄羽丰',
+          age:'8',
+          idcard:'350923201312180157',
+          applyRelationship:'子女',
+          registeredResidence:'棠口镇',
+        },
+          {
+          id:1,
+          name:'黄羽晨',
+          age:'3',
+          idcard:'350923201810110012',
+          applyRelationship:'子女',
+          registeredResidence:'棠口镇',
+        }
+      ],
     });
     const result = ref("");
     const showArea = ref(false);
@@ -130,23 +162,24 @@ export default {
     });
 
     const init = async () => {
+      result.value = "福建省/宁德市/屏南县"
       // state.applyUserInfo = JSON.parse($localStorage.get("applyUserInfo"));
-      state.familyMemberList = JSON.parse(
-        // $localStorage.get("familyMemberList")
-      );
-      if (state.applyUserInfo) {
-        state.applyName = state.applyUserInfo.applyName;
-        state.applySex = state.applyUserInfo.applySex;
-        state.applyAge = state.applyUserInfo.applyAge;
-        state.applyIdcard = state.applyUserInfo.applyIdcard;
-        state.applyHouseAddress = state.applyUserInfo.applyHouseAddress;
-        state.applyFamilySize = state.applyUserInfo.applyFamilySize;
-        state.applyCity = state.applyUserInfo.applyCity;
-        state.applyProvince = state.applyUserInfo.applyProvince;
-        state.applyCounty = state.applyUserInfo.applyCounty;
-        result.value =
-          state.applyProvince + "/" + state.applyCity + "/" + state.applyCounty;
-      }
+      // state.familyMemberList = JSON.parse(
+      //   // $localStorage.get("familyMemberList")
+      // );
+      // if (state.applyUserInfo) {
+      //   state.applyName = state.applyUserInfo.applyName;
+      //   state.applySex = state.applyUserInfo.applySex;
+      //   state.applyAge = state.applyUserInfo.applyAge;
+      //   state.applyIdcard = state.applyUserInfo.applyIdcard;
+      //   state.applyHouseAddress = state.applyUserInfo.applyHouseAddress;
+      //   state.applyFamilySize = state.applyUserInfo.applyFamilySize;
+      //   state.applyCity = state.applyUserInfo.applyCity;
+      //   state.applyProvince = state.applyUserInfo.applyProvince;
+      //   state.applyCounty = state.applyUserInfo.applyCounty;
+      //   result.value =
+      //     state.applyProvince + "/" + state.applyCity + "/" + state.applyCounty;
+      // }
     };
     // 地区选择
     const onConfirmArea = (areaValues) => {
@@ -196,20 +229,21 @@ export default {
     };
 
     const handleToEdit = (id, type) => {
-      state.applyUserInfo = {};
-      state.applyUserInfo.applyName = state.applyName;
-      state.applyUserInfo.applySex = state.applySex;
-      state.applyUserInfo.applyAge = state.applyAge;
-      state.applyUserInfo.applyIdcard = state.applyIdcard;
-      state.applyUserInfo.applyHouseAddress = state.applyHouseAddress;
-      state.applyUserInfo.applyFamilySize = state.applyFamilySize;
-      state.applyUserInfo.applyCity = state.applyCity;
-      state.applyUserInfo.applyProvince = state.applyProvince;
-      state.applyUserInfo.applyCounty = state.applyCounty;
+      // state.applyUserInfo = {};
+      // state.applyUserInfo.applyName = state.applyName;
+      // state.applyUserInfo.applySex = state.applySex;
+      // state.applyUserInfo.applyAge = state.applyAge;
+      // state.applyUserInfo.applyIdcard = state.applyIdcard;
+      // state.applyUserInfo.applyHouseAddress = state.applyHouseAddress;
+      // state.applyUserInfo.applyFamilySize = state.applyFamilySize;
+      // state.applyUserInfo.applyCity = state.applyCity;
+      // state.applyUserInfo.applyProvince = state.applyProvince;
+      // state.applyUserInfo.applyCounty = state.applyCounty;
       // $localStorage.set("applyUserInfo", JSON.stringify(state.applyUserInfo));
+      const list = state.familyMemberList.filter(res => res.id)[0]
       router.push({
         path: `/start-apply/edit-info`,
-        query: { id: id, type: type },
+        query: { id: id, type: type, obj:JSON.stringify(list) },
       });
     };
     return {
