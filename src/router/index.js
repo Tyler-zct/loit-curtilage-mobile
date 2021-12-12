@@ -31,27 +31,31 @@ const router = createRouter({
         index: 2
       }
     },
-    // 建房信息
+    // 宅基地情况
     {
       path: '/build-apply/apply-base',
       name: 'ApplyBase',
       component: () => import('@/views/build-apply/ApplyBase.vue')
     },
+    // 申请人员信息
     {
       path: '/build-apply/apply-info',
       name: 'ApplyInfo',
       component: () => import('@/views/build-apply/ApplyInfo.vue')
     },
+    // 申请须知
     {
       path: '/build-apply/apply-notes',
       name: 'ApplyNotes',
       component: () => import('@/views/build-apply/ApplyNotes.vue')
     },
+    // 编辑家庭成员信息
     {
       path: '/build-apply/edit-info',
       name: 'EditInfo',
       component: () => import('@/views/build-apply/EditInfo.vue')
     },
+    // 西至
     {
       path: '/build-apply/to-west',
       name: 'ToWest',

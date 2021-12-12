@@ -3,17 +3,17 @@
     <!-- <header class="home-header wrap" :class="{ active: headerScroll }"></header> -->
     <nav-bar />
     <div class="banner">
-      <van-image fit="cover" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
+      <van-image fit="cover" :src="bannerImg" />
     </div>
     <div class="category-list">
-      <div v-for="item in categoryList" v-bind:key="item.categoryId" @click="tips">
+      <div v-for="(item, index) in categoryList" v-bind:key="index" @click="handleSkip(item.skipUrl)">
         <img :src="item.imgUrl" />
         <span>{{ item.name }}</span>
       </div>
     </div>
     <div class="good">
       <header class="good-header">公示栏</header>
-      <van-skeleton title :row="3" :loading="loading" >
+      <van-skeleton title :row="3" :loading="loading">
         <div class="good-box">
           <!-- @click="goToDetail(item)" -->
           <div class="good-item" v-for="item in newGoodses" :key="item.goodsId">
@@ -21,7 +21,11 @@
               <div class="title">{{ item.title }}</div>
               <div class="desc">{{ item.desc }}</div>
             </div>
-            <img :src="$filters.prefix(item.goodsCoverImg)" alt="" />
+            <div class="good-num">
+              <img :src="item.goodsCoverImg" />
+              <span class="days" :style="{ marginLeft: item.days < 10 ? '-7px' : '-15px' }">{{ item.days }}</span>
+            </div>
+            <!-- <img :src="$filters.prefix(item.goodsCoverImg)" alt="" /> -->
           </div>
         </div>
       </van-skeleton>
@@ -34,7 +38,14 @@ import { reactive, onMounted, toRefs, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import navBar from '@/components/NavBar'
 // import { getDictDataList } from '@/service/home'
-// import bannerImg from '@/'
+import bannerImg from '@/assets/Images/banner.png'
+import applyListImg from '@/assets/Images/apply-list.png'
+import buildApplyImg from '@/assets/Images/build-apply.png'
+import completedApplyImg from '@/assets/Images/completed-apply.png'
+import startApplyImg from '@/assets/Images/start-apply.png'
+import noticeBlueImg from '@/assets/Images/notice_blue.png'
+import noticeCyanImg from '@/assets/Images/notice_cyan.png'
+import noticeGreenImg from '@/assets/Images/notice_green.png'
 import { getLocal } from '@/common/js/utils'
 import { Toast } from 'vant'
 export default {
@@ -49,49 +60,54 @@ export default {
       isLogin: false, // 是否已登录
       headerScroll: false, // 滚动透明判断
       hots: [],
+      bannerImg: bannerImg,
       newGoodses: [
         {
-          goodsCoverImg: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          goodsCoverImg: noticeBlueImg,
           title: '张丹的建房公示',
           desc: '建房类型：原址翻建',
+          days: 15,
         },
         {
-          goodsCoverImg: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          goodsCoverImg: noticeBlueImg,
           title: '张丹的建房公示',
           desc: '建房类型：原址翻建',
+          days: 15,
         },
         {
-          goodsCoverImg: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          goodsCoverImg: noticeCyanImg,
           title: '张丹的建房公示',
           desc: '建房类型：原址翻建',
+          days: 3,
         },
         {
-          goodsCoverImg: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          goodsCoverImg: noticeGreenImg,
           title: '张丹的建房公示',
           desc: '建房类型：原址翻建',
+          days: 1,
         },
       ],
       recommends: [],
       categoryList: [
         {
           name: '建房申请',
-          imgUrl: 'https://s.yezgea02.com/1604041127880/%E8%B6%85%E5%B8%82%402x.png',
-          categoryId: 100001,
+          imgUrl: buildApplyImg,
+          skipUrl: '/build-apply/apply-notes',
         },
         {
           name: '开工申请',
-          imgUrl: 'https://s.yezgea02.com/1604041127880/%E6%9C%8D%E9%A5%B0%402x.png',
-          categoryId: 100003,
+          imgUrl: startApplyImg,
+          skipUrl: '',
         },
         {
           name: '竣工申请',
-          imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%85%A8%E7%90%83%E8%B4%AD%402x.png',
-          categoryId: 100002,
+          imgUrl: completedApplyImg,
+          skipUrl: '',
         },
         {
           name: '申请记录',
-          imgUrl: 'https://s.yezgea02.com/1604041127880/%E7%94%9F%E9%B2%9C%402x.png',
-          categoryId: 100004,
+          imgUrl: applyListImg,
+          skipUrl: '',
         },
       ],
       loading: true,
@@ -126,14 +142,18 @@ export default {
       router.push({ path: `/product/${item.goodsId}` })
     }
 
-    const tips = () => {
-      Toast('敬请期待')
+    const handleSkip = (skipUrl) => {
+      if (skipUrl) {
+        router.push({ path: skipUrl })
+      } else {
+        Toast('敬请期待')
+      }
     }
 
     return {
       ...toRefs(state),
       goToDetail,
-      tips,
+      handleSkip,
     }
   },
 }
@@ -265,6 +285,19 @@ export default {
           font-size: 14px;
           color: #9297ae;
           margin-top: 8px;
+        }
+      }
+      .good-num {
+        position: relative;
+        .days {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -15px;
+          margin-top: -15px;
+          font-size: 25px;
+          font-weight: bold;
+          color: #000000;
         }
       }
       &:nth-child(2n + 1) {

@@ -80,9 +80,9 @@ export default {
           flex: 1;
           flex-direction: column;
           text-align: center;
-          color: #666;
+          color: #bbbfc8;
           &.router-link-active {
-            color: @primary;
+            color: @defaultc;
           }
           i {
             text-align: center;

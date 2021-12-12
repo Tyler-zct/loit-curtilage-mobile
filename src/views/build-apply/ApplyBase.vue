@@ -196,6 +196,9 @@
       <div>
         <van-button block @click="onSubmit">保存</van-button>
       </div>
+      <div>
+        <van-button block type="primary" to="/build-apply/build-info">下一步</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -204,6 +207,7 @@
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
+import $localStorage from '@/utils/localStorage.js'
 export default {
   setup() {
     const router = useRouter();

@@ -17,8 +17,9 @@
         <div class="title">农村宅基地使用承诺书</div>
         <van-divider />
         <div class="container">
-          <van-uploader v-model="letterList" multiple  />
-          <ImageUpload />
+          <!-- <van-uploader v-model="letterList" multiple  /> -->
+          <!-- <ImageUpload v-model="letterUrl" /> -->
+          <image-upload v-model="letterUrl" @handleUploadSuccess="handleUploadSuccess"></image-upload>
         </div>
       </div>
     </div>
@@ -60,29 +61,35 @@
 
 <script>
 import { reactive, onMounted, toRefs } from 'vue'
-import ImageUpload from '@/components/SimpleHeader'
+import ImageUpload from '@/components/ImageUpload'
 import { useRouter } from 'vue-router'
+import $localStorage from '@/utils/localStorage.js'
 export default {
   components: {
-    ImageUpload
+    ImageUpload,
   },
   setup() {
     const router = useRouter()
     const state = reactive({
+      letterUrl: '',
       letterList: [],
       capitalList: [],
       idCardList: [],
-      limitList: []
+      limitList: [],
     })
     onMounted(async () => {})
 
     const goToPrevious = () => {
       router.push({ path: `/build-apply/build-info` })
     }
+    const handleUploadSuccess = (fileRes) => {
+      console.log(fileRes)
+    }
 
     return {
       ...toRefs(state),
       goToPrevious,
+      handleUploadSuccess,
     }
   },
 }

@@ -40,7 +40,7 @@
     </div>
 
     <div class="btn-group">
-      <button type="button" class="cus-btn btn-default">上一步</button>
+      <button type="button" class="cus-btn btn-default" @click="goToPrevious">上一步</button>
       <button type="button" class="cus-btn btn-default">保存</button>
       <button type="button" class="cus-btn btn-primary" @click="goToNext">下一步</button>
     </div>
@@ -51,6 +51,7 @@
 // import sHeader from '@/components/SimpleHeader'
 import { reactive, onMounted, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
+import $localStorage from '@/utils/localStorage.js'
 export default {
   components: {
     // sHeader
@@ -70,6 +71,9 @@ export default {
     })
     onMounted(async () => {})
 
+    const goToPrevious = () => {
+      router.push({ path: `/build-apply/apply-base` })
+    }
     const goToNext = () => {
       router.push({ path: `/build-apply/apply-materials` })
     }
@@ -77,6 +81,7 @@ export default {
     return {
       ...toRefs(state),
       goToNext,
+      goToPrevious,
     }
   },
 }

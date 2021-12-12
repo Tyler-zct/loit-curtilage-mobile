@@ -44,7 +44,8 @@ if (ip === '') {
   }
 }
 if (env.NODE_ENV === 'development') {
-  baseUrl = ip + `/api-pn-homestead` // 开发环境地址
+  // baseUrl = ip + `/api-pn-homestead` // 开发环境地址
+  baseUrl = 'http://192.168.31.8:8301' // 开发环境地址
 } else if (env.NODE_ENV === 'production') {
   baseUrl = ip + `/api-pn-homestead` // 生产环境地址
 } else if (env.NODE_ENV === 'test') {
