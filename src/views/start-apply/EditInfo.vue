@@ -15,7 +15,7 @@
               placeholder="姓名"
               :rules="[{ required: true, message: '请填写姓名' }]"
             />
-            <van-field
+            <!-- <van-field
               readonly
               v-model="sex"
               is-link
@@ -30,7 +30,7 @@
                 @confirm="onConfirm"
                 @cancel="showPicker = false"
               />
-            </van-popup>
+            </van-popup> -->
             <van-field v-model="age" label="年龄" placeholder="年龄" />
             <van-field
               v-model="applyRelationship"
@@ -91,27 +91,34 @@ export default {
     });
 
     const init = async () => {
-      const { id, type } = route.query;
+      const { id, type,obj } = route.query;
       state.userId = +id;
       state.type = type;
+      console.log(JSON.parse(obj))
+      // state.name = obj.name;
+      state.name = JSON.parse(obj).name;
+      state.age = JSON.parse(obj).age;
+      state.applyRelationship = JSON.parse(obj).applyRelationship;
+      state.idcard = JSON.parse(obj).idcard;
+      state.registeredResidence = JSON.parse(obj).registeredResidence;
       // state.familyMemberList = JSON.parse(
-        // $localStorage.get("familyMemberList")
+      // $localStorage.get("familyMemberList")
       // );
-      console.log(state.familyMemberList);
-      if (state.familyMemberList) {
-        state.familyMemberList.forEach((res) => {
-          if (res.id === state.userId) {
-            state.name = res.name;
-            state.age = res.age;
-            state.sex = res.sex;
-            state.applyRelationship = res.applyRelationship;
-            state.idcard = res.idcard;
-            state.registeredResidence = res.registeredResidence;
-          }
-        });
-      } else {
-        state.familyMemberList = [];
-      }
+      // console.log(state.familyMemberList);
+      // if (state.familyMemberList) {
+      //   state.familyMemberList.forEach((res) => {
+      //     if (res.id === state.userId) {
+      //       state.name = res.name;
+      //       state.age = res.age;
+      //       state.sex = res.sex;
+      //       state.applyRelationship = res.applyRelationship;
+      //       state.idcard = res.idcard;
+      //       state.registeredResidence = res.registeredResidence;
+      //     }
+      //   });
+      // } else {
+      //   state.familyMemberList = [];
+      // }
     };
     const goRoute = () => {
       // $localStorage.set("familyMemberList", state.familyMemberList);
