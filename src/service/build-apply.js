@@ -1,6 +1,6 @@
 import {
     post,
-    get
+    // get
 } from '@/utils/axios.js'
 var api = '/api/v1'
 

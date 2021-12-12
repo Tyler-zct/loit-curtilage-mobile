@@ -35,11 +35,11 @@
 import { reactive, onMounted, toRefs } from 'vue'
 import ImageUpload from '@/components/ImageUpload'
 import { useRouter } from 'vue-router'
-import $localStorage from '@/utils/localStorage.js'
+// import $localStorage from '@/utils/localStorage.js'
 import { getDictData } from '@/utils/data.js'
 import { Toast } from 'vant'
-import { saveBuildApply } from '@/service/build-apply'
-import { getSign } from '@/service/upload'
+// import { saveBuildApply } from '@/service/build-apply'
+// import { getSign } from '@/service/upload'
 export default {
   components: {
     ImageUpload,
@@ -81,32 +81,32 @@ export default {
     })
 
     onMounted(async () => {
-      if ($localStorage.get('attachInfoList')) {
-        // 获取配置信息
-        if ($localStorage.get('fileServerPrefix')) {
-          state.fileServerPrefix = $localStorage.get('fileServerPrefix')
-        } else {
-          getSign().then((res) => {
-            state.fileServerPrefix = res.data.fileServerPrefix + '/'
-            $localStorage.set('fileServerPrefix', state.fileServerPrefix)
-          })
-        }
-        let attachInfoList = JSON.parse($localStorage.get('attachInfoList'))
-        attachInfoList.forEach((atta) => {
-          state.materials.forEach((mater) => {
-            if (atta.type === mater.type) {
-              mater.imgUrl = state.fileServerPrefix + atta.url
-            }
-          })
-        })
-        // console.log(attachInfoList)
-        // console.log(state.materials)
-      }
+      // if ($localStorage.get('attachInfoList')) {
+      //   // 获取配置信息
+      //   if ($localStorage.get('fileServerPrefix')) {
+      //     state.fileServerPrefix = $localStorage.get('fileServerPrefix')
+      //   } else {
+      //     getSign().then((res) => {
+      //       state.fileServerPrefix = res.data.fileServerPrefix + '/'
+      //       $localStorage.set('fileServerPrefix', state.fileServerPrefix)
+      //     })
+      //   }
+      //   let attachInfoList = JSON.parse($localStorage.get('attachInfoList'))
+      //   attachInfoList.forEach((atta) => {
+      //     state.materials.forEach((mater) => {
+      //       if (atta.type === mater.type) {
+      //         mater.imgUrl = state.fileServerPrefix + atta.url
+      //       }
+      //     })
+      //   })
+      //   // console.log(attachInfoList)
+      //   // console.log(state.materials)
+      // }
     })
 
     const goToPrevious = () => {
-      $localStorage.set('attachInfoList', JSON.stringify(state.allFileList))
-      router.push({ path: `/build-apply/build-info` })
+      // $localStorage.set('attachInfoList', JSON.stringify(state.allFileList))
+      router.push({ path: `/start-apply/build-info` })
     }
     const handleUploadSuccess = (fileRes) => {
       const fileItem = {
@@ -131,26 +131,32 @@ export default {
       state.allFileList.forEach((item, index) => {
         item.sort = index
       })
-      $localStorage.set('attachInfoList', JSON.stringify(state.allFileList))
+      // $localStorage.set('attachInfoList', JSON.stringify(state.allFileList))
       Toast.success('保存成功')
     }
     // 提交数据
     const handleSubmit = () => {
-      const applyMaterials = {
-        attachInfoList: JSON.parse($localStorage.get('attachInfoList')),
-        familyMemberList: JSON.parse($localStorage.get('familyMemberList')),
-        isSubmit: '1',
-      }
-      const homesteadForm = JSON.parse($localStorage.get('homesteadForm'))
-      const applyUserInfo = JSON.parse($localStorage.get('applyUserInfo'))
-      const buildInfo = JSON.parse($localStorage.get('buildInfo'))
-      let params = Object.assign(applyMaterials, buildInfo, homesteadForm, applyUserInfo)
-      saveBuildApply(params).then((res) => {
-        if (res.code == 100) {
-          Toast(res.msg)
-          router.push({ path: `/home` })
-        }
-      })
+      // const applyMaterials = {
+      // attachInfoList: JSON.parse($localStorage.get('attachInfoList')),
+      // familyMemberList: JSON.parse($localStorage.get('familyMemberList')),
+      //   isSubmit: '1',
+      // }
+      // const homesteadForm = JSON.parse($localStorage.get('homesteadForm'))
+      // const applyUserInfo = JSON.parse($localStorage.get('applyUserInfo'))
+      // const buildInfo = JSON.parse($localStorage.get('buildInfo'))
+      // let params = Object.assign(applyMaterials, buildInfo, homesteadForm, applyUserInfo)
+      // let params = {Object.assign(applyMaterials, buildInfo, homesteadForm, applyUserInfo)}
+      // let params = {}
+      // saveBuildApply(params).then((res) => {
+      //   if (res.code == 100) {
+      //     Toast(res.msg)
+      //     router.push({ path: `/home` })
+      //   }
+      // })
+      Toast.success('提交成功')
+      setTimeout(() => {
+        router.push({ path: `/home` })
+      }, 1500)
     }
 
     return {

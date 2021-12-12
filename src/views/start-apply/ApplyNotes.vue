@@ -42,7 +42,7 @@
 <script>
 import { reactive, toRefs, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import $localStorage from '@/utils/localStorage.js'
+// import $localStorage from '@/utils/localStorage.js'
 export default {
   setup() {
     const router = useRouter()
@@ -130,16 +130,16 @@ export default {
     })
 
     onMounted(async () => {
-      $localStorage.removeItem('attachInfoList')
-      $localStorage.removeItem('familyMemberList')
-      $localStorage.removeItem('homesteadForm')
-      $localStorage.removeItem('applyUserInfo')
-      $localStorage.removeItem('buildInfo')
+      // $localStorage.removeItem('attachInfoList')
+      // $localStorage.removeItem('familyMemberList')
+      // $localStorage.removeItem('homesteadForm')
+      // $localStorage.removeItem('applyUserInfo')
+      // $localStorage.removeItem('buildInfo')
     })
 
     const goNext = () => {
       router.push({
-        path: '/build-apply/apply-info',
+        path: '/start-apply/apply-info',
       })
     }
     return {

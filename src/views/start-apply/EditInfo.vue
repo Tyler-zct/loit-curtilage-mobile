@@ -68,7 +68,7 @@ import { reactive, onMounted, ref, toRefs } from "vue";
 import { useRoute, useRouter } from "vue-router";
 // import { Toast } from "vant";
 import { Dialog } from "vant";
-import $localStorage from "@/utils/localStorage.js";
+// import $localStorage from "@/utils/localStorage.js";
 export default {
   setup() {
     const router = useRouter();
@@ -94,9 +94,9 @@ export default {
       const { id, type } = route.query;
       state.userId = +id;
       state.type = type;
-      state.familyMemberList = JSON.parse(
-        $localStorage.get("familyMemberList")
-      );
+      // state.familyMemberList = JSON.parse(
+        // $localStorage.get("familyMemberList")
+      // );
       console.log(state.familyMemberList);
       if (state.familyMemberList) {
         state.familyMemberList.forEach((res) => {
@@ -114,9 +114,9 @@ export default {
       }
     };
     const goRoute = () => {
-      $localStorage.set("familyMemberList", state.familyMemberList);
+      // $localStorage.set("familyMemberList", state.familyMemberList);
       router.push({
-        path: "/build-apply/apply-info",
+        path: "/start-apply/apply-info",
       });
     };
     const delUser = () => {
@@ -132,7 +132,7 @@ export default {
     };
     const toCancel = () => {
       router.push({
-        path: "/build-apply/apply-info",
+        path: "/start-apply/apply-info",
       });
     };
     const onConfirm = (value) => {

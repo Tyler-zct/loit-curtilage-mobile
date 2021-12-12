@@ -57,7 +57,7 @@
 // import sHeader from '@/components/SimpleHeader'
 import { reactive, onMounted, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import $localStorage from '@/utils/localStorage.js'
+// import $localStorage from '@/utils/localStorage.js'
 // import { getDictData } from '@/utils/data.js'
 export default {
   components: {
@@ -90,23 +90,23 @@ export default {
     //   state.reasonListDict = list
     // })
     onMounted(async () => {
-      if ($localStorage.get('buildInfo')) {
-        state.buildInfo = JSON.parse($localStorage.get('buildInfo'))
-      }
+      // if ($localStorage.get('buildInfo')) {
+      //   state.buildInfo = JSON.parse($localStorage.get('buildInfo'))
+      // }
     })
     // 上一步
     const goToPrevious = () => {
-      $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
-      router.push({ path: `/build-apply/apply-base` })
+      // $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
+      router.push({ path: `/start-apply/apply-base` })
     }
     // 下一步
     const goToNext = () => {
-      $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
-      router.push({ path: `/build-apply/apply-materials` })
+      // $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
+      router.push({ path: `/start-apply/apply-materials` })
     }
     // 保存
     const handleSave = () => {
-      $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
+      // $localStorage.set('buildInfo', JSON.stringify(state.buildInfo))
     }
 
     return {

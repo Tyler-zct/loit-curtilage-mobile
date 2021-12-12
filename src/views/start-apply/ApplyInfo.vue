@@ -103,7 +103,7 @@ import { onMounted, reactive, ref, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
 import { areaList } from "@vant/area-data";
-import $localStorage from "@/utils/localStorage.js";
+// import $localStorage from "@/utils/localStorage.js";
 export default {
   setup() {
     const router = useRouter();
@@ -130,9 +130,9 @@ export default {
     });
 
     const init = async () => {
-      state.applyUserInfo = JSON.parse($localStorage.get("applyUserInfo"));
+      // state.applyUserInfo = JSON.parse($localStorage.get("applyUserInfo"));
       state.familyMemberList = JSON.parse(
-        $localStorage.get("familyMemberList")
+        // $localStorage.get("familyMemberList")
       );
       if (state.applyUserInfo) {
         state.applyName = state.applyUserInfo.applyName;
@@ -172,13 +172,13 @@ export default {
     const goBack = () => {
       saveLocal();
       router.push({
-        path: "/build-apply/apply-notes",
+        path: "/start-apply/apply-notes",
       });
     };
     const goNext = () => {
       saveLocal();
       router.push({
-        path: "/build-apply/apply-base",
+        path: "/start-apply/apply-base",
       });
     };
     const saveLocal = () => {
@@ -192,7 +192,7 @@ export default {
       state.applyUserInfo.applyCity = state.applyCity;
       state.applyUserInfo.applyProvince = state.applyProvince;
       state.applyUserInfo.applyCounty = state.applyCounty;
-      $localStorage.set("applyUserInfo", JSON.stringify(state.applyUserInfo));
+      // $localStorage.set("applyUserInfo", JSON.stringify(state.applyUserInfo));
     };
 
     const handleToEdit = (id, type) => {
@@ -206,9 +206,9 @@ export default {
       state.applyUserInfo.applyCity = state.applyCity;
       state.applyUserInfo.applyProvince = state.applyProvince;
       state.applyUserInfo.applyCounty = state.applyCounty;
-      $localStorage.set("applyUserInfo", JSON.stringify(state.applyUserInfo));
+      // $localStorage.set("applyUserInfo", JSON.stringify(state.applyUserInfo));
       router.push({
-        path: `/build-apply/edit-info`,
+        path: `/start-apply/edit-info`,
         query: { id: id, type: type },
       });
     };

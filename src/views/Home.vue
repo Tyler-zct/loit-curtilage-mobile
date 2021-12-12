@@ -15,8 +15,7 @@
       <header class="good-header">公示栏</header>
       <van-skeleton title :row="3" :loading="loading">
         <div class="good-box">
-          <!-- @click="goToDetail(item)" -->
-          <div class="good-item" v-for="item in newGoodses" :key="item.goodsId">
+          <div class="good-item" v-for="item in newGoodses" :key="item.goodsId"  @click="goToDetail(item)">
             <div class="good-desc">
               <div class="title">{{ item.title }}</div>
               <div class="desc">{{ item.desc }}</div>
@@ -25,7 +24,6 @@
               <img :src="item.goodsCoverImg" />
               <span class="days" :style="{ marginLeft: item.days < 10 ? '-7px' : '-15px' }">{{ item.days }}</span>
             </div>
-            <!-- <img :src="$filters.prefix(item.goodsCoverImg)" alt="" /> -->
           </div>
         </div>
       </van-skeleton>
@@ -43,9 +41,9 @@ import applyListImg from '@/assets/Images/apply-list.png'
 import buildApplyImg from '@/assets/Images/build-apply.png'
 import completedApplyImg from '@/assets/Images/completed-apply.png'
 import startApplyImg from '@/assets/Images/start-apply.png'
-import noticeBlueImg from '@/assets/Images/notice_blue.png'
-import noticeCyanImg from '@/assets/Images/notice_cyan.png'
-import noticeGreenImg from '@/assets/Images/notice_green.png'
+// import noticeBlueImg from '@/assets/Images/notice_blue.png'
+// import noticeCyanImg from '@/assets/Images/notice_cyan.png'
+// import noticeGreenImg from '@/assets/Images/notice_green.png'
 import { getLocal } from '@/common/js/utils'
 import { Toast } from 'vant'
 export default {
@@ -63,29 +61,35 @@ export default {
       bannerImg: bannerImg,
       newGoodses: [
         {
-          goodsCoverImg: noticeBlueImg,
-          title: '张丹的建房公示',
-          desc: '建房类型：原址翻建',
-          days: 15,
-        },
-        {
-          goodsCoverImg: noticeBlueImg,
-          title: '张丹的建房公示',
-          desc: '建房类型：原址翻建',
-          days: 15,
-        },
-        {
-          goodsCoverImg: noticeCyanImg,
-          title: '张丹的建房公示',
-          desc: '建房类型：原址翻建',
-          days: 3,
-        },
-        {
-          goodsCoverImg: noticeGreenImg,
-          title: '张丹的建房公示',
-          desc: '建房类型：原址翻建',
-          days: 1,
-        },
+          goodsCoverImg: '',
+          title: '',
+          desc: '',
+          days: ''
+        }
+        // {
+        //   goodsCoverImg: noticeBlueImg,
+        //   title: '张丹的建房公示',
+        //   desc: '建房类型：原址翻建',
+        //   days: 15,
+        // },
+        // {
+        //   goodsCoverImg: noticeBlueImg,
+        //   title: '张丹的建房公示',
+        //   desc: '建房类型：原址翻建',
+        //   days: 15,
+        // },
+        // {
+        //   goodsCoverImg: noticeCyanImg,
+        //   title: '张丹的建房公示',
+        //   desc: '建房类型：原址翻建',
+        //   days: 3,
+        // },
+        // {
+        //   goodsCoverImg: noticeGreenImg,
+        //   title: '张丹的建房公示',
+        //   desc: '建房类型：原址翻建',
+        //   days: 1,
+        // },
       ],
       recommends: [],
       categoryList: [
@@ -99,6 +103,7 @@ export default {
           imgUrl: startApplyImg,
           skipUrl: '',
         },
+        // /start-apply/apply-notes
         {
           name: '竣工申请',
           imgUrl: completedApplyImg,
@@ -161,147 +166,152 @@ export default {
 
 <style lang="less" scoped >
 @import '../common/style/mixin';
-.home-header {
-  position: fixed;
-  left: 0;
+.page {
+  position: absolute;
   top: 0;
-  .wh(100%, 50px);
-  .fj();
-  line-height: 50px;
-  padding: 0 15px;
-  .boxSizing();
-  font-size: 15px;
-  color: #fff;
-  z-index: 10000;
-  .nbmenu2 {
-    color: @primary;
-  }
-  &.active {
-    background: @primary;
+  bottom: 0;
+  .home-header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    .wh(100%, 50px);
+    .fj();
+    line-height: 50px;
+    padding: 0 15px;
+    .boxSizing();
+    font-size: 15px;
+    color: #fff;
+    z-index: 10000;
     .nbmenu2 {
+      color: @primary;
+    }
+    &.active {
+      background: @primary;
+      .nbmenu2 {
+        color: #fff;
+      }
+      .login {
+        color: #fff;
+      }
+    }
+
+    .header-search {
+      display: flex;
+      .wh(74%, 20px);
+      line-height: 20px;
+      margin: 10px 0;
+      padding: 5px 0;
+      color: #232326;
+      background: rgba(255, 255, 255, 0.7);
+      .borderRadius(20px);
+      .app-name {
+        padding: 0 10px;
+        color: @primary;
+        font-size: 20px;
+        font-weight: bold;
+        border-right: 1px solid #666;
+      }
+      .icon-search {
+        padding: 0 10px;
+        font-size: 17px;
+      }
+      .search-title {
+        font-size: 12px;
+        color: #666;
+        line-height: 21px;
+      }
+    }
+    .icon-iconyonghu {
       color: #fff;
+      font-size: 22px;
     }
     .login {
-      color: #fff;
-    }
-  }
-
-  .header-search {
-    display: flex;
-    .wh(74%, 20px);
-    line-height: 20px;
-    margin: 10px 0;
-    padding: 5px 0;
-    color: #232326;
-    background: rgba(255, 255, 255, 0.7);
-    .borderRadius(20px);
-    .app-name {
-      padding: 0 10px;
       color: @primary;
-      font-size: 20px;
-      font-weight: bold;
-      border-right: 1px solid #666;
-    }
-    .icon-search {
-      padding: 0 10px;
-      font-size: 17px;
-    }
-    .search-title {
-      font-size: 12px;
-      color: #666;
-      line-height: 21px;
+      line-height: 52px;
+      .van-icon-manager-o {
+        font-size: 20px;
+        vertical-align: -3px;
+      }
     }
   }
-  .icon-iconyonghu {
-    color: #fff;
-    font-size: 22px;
+  .banner {
+    width: 100%;
+    height: 150px;
+    margin-top: 15px;
+    overflow: hidden;
+    .borderRadius(10px);
   }
-  .login {
-    color: @primary;
-    line-height: 52px;
-    .van-icon-manager-o {
-      font-size: 20px;
-      vertical-align: -3px;
-    }
-  }
-}
-.banner {
-  width: 100%;
-  height: 150px;
-  margin-top: 15px;
-  overflow: hidden;
-  .borderRadius(10px);
-}
-.category-list {
-  // display: flex;
-  // flex-shrink: 0;
-  // flex-wrap: wrap;
-  .fj();
-  width: 100%;
-  padding-bottom: 13px;
-  div {
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-    text-align: center;
-    img {
-      .wh(34px, 31px);
-      margin: 13px auto 8px auto;
-    }
-  }
-}
-.good {
-  padding-bottom: 100px;
-  .good-header {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 10px 0 8px;
-  }
-  .good-box {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    .good-item {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 10px 12px;
-      background-color: #ffffff;
-      box-shadow: 0px 2px 5px 0px rgba(127, 139, 168, 0.12);
-      .borderRadius(10px);
-      .fj();
-      margin-bottom: 12px;
+  .category-list {
+    // display: flex;
+    // flex-shrink: 0;
+    // flex-wrap: wrap;
+    .fj();
+    width: 100%;
+    padding-bottom: 13px;
+    div {
+      display: flex;
+      flex-direction: column;
+      width: 20%;
+      text-align: center;
       img {
-        display: block;
-        width: 67px;
-        .borderRadius(50%);
+        .wh(34px, 31px);
+        margin: 13px auto 8px auto;
       }
-      .good-desc {
-        font-size: 16px;
-        padding: 10px 0;
-        .title {
-          font-weight: bold;
+    }
+  }
+  .good {
+    padding-bottom: 100px;
+    .good-header {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px 0 8px;
+    }
+    .good-box {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      .good-item {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px 12px;
+        background-color: #ffffff;
+        box-shadow: 0px 2px 5px 0px rgba(127, 139, 168, 0.12);
+        .borderRadius(10px);
+        .fj();
+        margin-bottom: 12px;
+        img {
+          display: block;
+          width: 67px;
+          .borderRadius(50%);
         }
-        .desc {
-          font-size: 14px;
-          color: #9297ae;
-          margin-top: 8px;
+        .good-desc {
+          font-size: 16px;
+          padding: 10px 0;
+          .title {
+            font-weight: bold;
+          }
+          .desc {
+            font-size: 14px;
+            color: #9297ae;
+            margin-top: 8px;
+          }
         }
-      }
-      .good-num {
-        position: relative;
-        .days {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          margin-left: -15px;
-          margin-top: -15px;
-          font-size: 25px;
-          font-weight: bold;
-          color: #000000;
+        .good-num {
+          position: relative;
+          .days {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -15px;
+            margin-top: -15px;
+            font-size: 25px;
+            font-weight: bold;
+            color: #000000;
+          }
         }
-      }
-      &:nth-child(2n + 1) {
-        border-right: 1px solid #e9e9e9;
+        &:nth-child(2n + 1) {
+          border-right: 1px solid #e9e9e9;
+        }
       }
     }
   }

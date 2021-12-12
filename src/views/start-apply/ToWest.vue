@@ -20,7 +20,7 @@
     </div>
     <div class="footer_btn">
       <div>
-        <van-button block to="/build-apply/apply-base">取消</van-button>
+        <van-button block to="/start-apply/apply-base">取消</van-button>
       </div>
       <div>
         <van-button block type="primary" native-type="submit">

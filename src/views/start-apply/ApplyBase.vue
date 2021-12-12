@@ -294,7 +294,7 @@
 import { onMounted, reactive, toRefs, ref } from "vue";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
-import $localStorage from "@/utils/localStorage.js";
+// import $localStorage from "@/utils/localStorage.js";
 export default {
   setup() {
     const router = useRouter();
@@ -322,7 +322,7 @@ export default {
       init();
     });
     const init = async () => {
-      state.homesteadForm = JSON.parse($localStorage.get("homesteadForm"));
+      // state.homesteadForm = JSON.parse($localStorage.get("homesteadForm"));
       console.log(state.homesteadForm);
       if (state.homesteadForm) {
         // state.homesteadForm = form;
@@ -377,17 +377,17 @@ export default {
     };
     const goNext = () => {
       saveLocal();
-      const data = $localStorage.get("homesteadForm");
-      console.log(data);
+      // const data = $localStorage.get("homesteadForm");
+      // console.log(data);
       router.push({
-        path: "/build-apply/build-info",
+        path: "/start-apply/build-info",
       });
     };
     const goBack = () => {
       saveLocal();
-      $localStorage.set("homesteadForm", JSON.stringify(state.homesteadForm));
+      // $localStorage.set("homesteadForm", JSON.stringify(state.homesteadForm));
       router.push({
-        path: "/build-apply/apply-info",
+        path: "/start-apply/apply-info",
       });
     };
     // 全部选项选择完毕后，会触发 finish 事件
@@ -435,11 +435,11 @@ export default {
       state.homesteadForm.otherDisposalCase = form.otherDisposalCase;
       state.homesteadForm.proposedTown = form.proposedTown;
       state.homesteadForm.proposedVillage = form.proposedVillage;
-      $localStorage.set("homesteadForm", JSON.stringify(state.homesteadForm));
+      // $localStorage.set("homesteadForm", JSON.stringify(state.homesteadForm));
     };
     const toWest = () => {
       router.push({
-        path: "/build-apply/to-west",
+        path: "/start-apply/to-west",
       });
     };
     return {
