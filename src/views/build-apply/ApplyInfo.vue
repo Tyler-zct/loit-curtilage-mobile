@@ -11,14 +11,14 @@
         <van-form label-width="30%" @submit="onSubmit">
           <van-cell-group inset>
             <van-field
-              v-model="applyForm.applyName"
+              v-model="applyName"
               label="姓名"
               placeholder="姓名"
               :rules="[{ required: true, message: '请填写姓名' }]"
             />
             <van-field
               readonly
-              v-model="applyForm.applySex"
+              v-model="applySex"
               is-link
               name="picker"
               label="性别"
@@ -32,13 +32,9 @@
                 @cancel="showPicker = false"
               />
             </van-popup>
+            <van-field v-model="applyAge" label="年龄" placeholder="年龄" />
             <van-field
-              v-model="applyForm.applyAge"
-              label="年龄"
-              placeholder="年龄"
-            />
-            <van-field
-              v-model="applyForm.applyIdcard"
+              v-model="applyIdcard"
               label="身份证号"
               placeholder="身份证号"
               :rules="[{ required: true, message: '请填写身份证号' }]"
@@ -60,12 +56,12 @@
               />
             </van-popup>
             <van-field
-              v-model="applyForm.applyHouseAddress"
+              v-model="applyHouseAddress"
               label="家庭住址"
               placeholder="家庭住址"
             />
             <van-field
-              v-model="applyForm.applyFamilySize"
+              v-model="applyFamilySize"
               label="家庭人口数"
               placeholder="家庭人口数"
             />
@@ -103,42 +99,60 @@
 </template>
 
 <script>
-import { reactive, ref, toRefs } from "vue";
+import { onMounted, reactive, ref, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { Toast } from "vant";
-import { areaList } from '@vant/area-data';
-// import $localStorage from '@/utils/localStorage.js'
+import { areaList } from "@vant/area-data";
+import $localStorage from "@/utils/localStorage.js";
 export default {
   setup() {
     const router = useRouter();
+    // const route = useRoute();
     const showPicker = ref(false);
     const columns = ["男", "女"];
-    const applyForm = reactive({});
     const state = reactive({
-      familyMemberList: [
-        // {
-        //   id: 0,
-        //   name: "陆辰",
-        // },
-        // {
-        //   id: 1,
-        //   name: "张文丽",
-        // },
-        // {
-        //   id: 2,
-        //   name: "陆小茗",
-        // },
-      ],
+      applyName: "",
+      applySex: "",
+      applyAge: "",
+      applyIdcard: "",
+      applyHouseAddress: "",
+      applyFamilySize: "",
+      applyProvince: "",
+      applyCity: "",
+      applyCounty: "",
+      applyUserInfo: {},
+      familyMemberList: [],
     });
     const result = ref("");
     const showArea = ref(false);
+    onMounted(() => {
+      init();
+    });
+
+    const init = async () => {
+      state.applyUserInfo = JSON.parse($localStorage.get("applyUserInfo"));
+      state.familyMemberList = JSON.parse($localStorage.get("familyMemberList"))
+      if (state.applyUserInfo) {
+        state.applyName = state.applyUserInfo.applyName;
+        state.applySex = state.applyUserInfo.applySex;
+        state.applyAge = state.applyUserInfo.applyAge;
+        state.applyIdcard = state.applyUserInfo.applyIdcard;
+        state.applyHouseAddress = state.applyUserInfo.applyHouseAddress;
+        state.applyFamilySize = state.applyUserInfo.applyFamilySize;
+        state.applyCity = state.applyUserInfo.applyCity;
+        state.applyProvince = state.applyUserInfo.applyProvince;
+        state.applyCounty = state.applyUserInfo.applyCounty;
+        // result.value =
+        //   state.applyProvince + "/" + state.applyCity + "/" + state.applyCounty;
+      }
+    };
     // 地区选择
     const onConfirmArea = (areaValues) => {
-      console.log(areaValues)
+      console.log(areaValues);
       showArea.value = false;
-      applyForm.applyProvince = areaValues[0].code
-      applyForm.applyCity = areaValues[0].code
-      applyForm.applyCounty = areaValues[0].code
+      state.applyProvince = areaValues[0].code;
+      state.applyCity = areaValues[0].code;
+      state.applyCounty = areaValues[0].code;
       result.value = areaValues
         .filter((item) => !!item)
         .map((item) => item.name)
@@ -146,11 +160,11 @@ export default {
     };
     // 性别选择
     const onConfirm = (value) => {
-      applyForm.applySex = value;
+      state.applySex = value;
       showPicker.value = false;
     };
     const onSubmit = () => {
-      console.log(applyForm);
+      console.log(state);
       Toast.success("保存到草稿箱");
     };
     const goNext = () => {
@@ -159,13 +173,23 @@ export default {
       });
     };
     const handleToEdit = (id, type) => {
+      state.applyUserInfo = {};
+      state.applyUserInfo.applyName = state.applyName;
+      state.applyUserInfo.applySex = state.applySex;
+      state.applyUserInfo.applyAge = state.applyAge;
+      state.applyUserInfo.applyIdcard = state.applyIdcard;
+      state.applyUserInfo.applyHouseAddress = state.applyHouseAddress;
+      state.applyUserInfo.applyFamilySize = state.applyFamilySize;
+      state.applyUserInfo.applyCity = state.applyCity;
+      state.applyUserInfo.applyProvince = state.applyProvince;
+      state.applyUserInfo.applyCounty = state.applyCounty;
+      $localStorage.set("applyUserInfo", JSON.stringify(state.applyUserInfo));
       router.push({
         path: `/build-apply/edit-info`,
         query: { id: id, type: type },
       });
     };
     return {
-      applyForm,
       showPicker,
       columns,
       result,
