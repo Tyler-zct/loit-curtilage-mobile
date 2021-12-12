@@ -168,6 +168,10 @@ export default {
       Toast.success("保存到草稿箱");
     };
     const goNext = () => {
+      const data = $localStorage.get('applyUserInfo')
+      const data1 = $localStorage.get('familyMemberList')
+      console.log(data)
+      console.log(data1)
       router.push({
         path: "/build-apply/apply-base",
       });

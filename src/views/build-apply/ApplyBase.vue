@@ -14,6 +14,7 @@
               v-model="form.homesteadArea"
               label="宅基地面积"
               placeholder="宅基地面积"
+              clearable
             >
               <template #extra>
                 <div>m<sup>2</sup></div>
@@ -302,6 +303,8 @@ export default {
     };
     const goNext = () => {
       saveLocal();
+      const data = $localStorage.get('homesteadForm')
+      console.log(data)
       router.push({
         path: "/build-apply/build-info",
       });
